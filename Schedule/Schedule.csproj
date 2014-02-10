@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AC4286E9-21FF-4841-87C6-44476731D2FF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Schedule</RootNamespace>
+    <AssemblyName>Schedule</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Core\WordExport.cs" />
+    <Compile Include="Forms\AllChanges.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AllChanges.Designer.cs">
+      <DependentUpon>AllChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Auditoriums.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Auditoriums.Designer.cs">
+      <DependentUpon>Auditoriums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\AuditoriumEventsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\AuditoriumEventsList.Designer.cs">
+      <DependentUpon>AuditoriumEventsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\AuditoriumList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\AuditoriumList.Designer.cs">
+      <DependentUpon>AuditoriumList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\CalendarList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\CalendarList.Designer.cs">
+      <DependentUpon>CalendarList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\ConfigOptionsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\ConfigOptionsList.Designer.cs">
+      <DependentUpon>ConfigOptionsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\DisciplineList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\DisciplineList.Designer.cs">
+      <DependentUpon>DisciplineList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\FacultyList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\FacultyList.Designer.cs">
+      <DependentUpon>FacultyList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\Lessons\AddLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\Lessons\AddLesson.Designer.cs">
+      <DependentUpon>AddLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\Lessons\EditLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\Lessons\EditLesson.Designer.cs">
+      <DependentUpon>EditLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\Lessons\RemoveLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\Lessons\RemoveLesson.Designer.cs">
+      <DependentUpon>RemoveLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\RingList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\RingList.Designer.cs">
+      <DependentUpon>RingList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\StudentList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\StudentList.Designer.cs">
+      <DependentUpon>StudentList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\StudentGroupList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\StudentGroupList.Designer.cs">
+      <DependentUpon>StudentGroupList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DBLists\TeacherList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DBLists\TeacherList.Designer.cs">
+      <DependentUpon>TeacherList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultipleView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MultipleView.Designer.cs">
+      <DependentUpon>MultipleView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\OneAuditorium.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OneAuditorium.Designer.cs">
+      <DependentUpon>OneAuditorium.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\teacherHours.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\teacherHours.Designer.cs">
+      <DependentUpon>teacherHours.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\DBListViews\AuditoriumEventView.cs" />
+    <Compile Include="Views\DBListViews\DisciplineView.cs" />
+    <Compile Include="Views\DBListViews\GroupTableView.cs" />
+    <Compile Include="Views\DBListViews\GroupView.cs" />
+    <Compile Include="Views\DBListViews\RingView.cs" />
+    <Compile Include="Views\DBListViews\StudentView.cs" />
+    <Compile Include="Views\FiveGroupsView.cs" />
+    <Compile Include="Views\LessonLogEventView.cs" />
+    <Compile Include="Views\TeacherForDisciplineView.cs" />
+    <Compile Include="Views\tfdView.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLAuditoriumEvent.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLCalendar.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLDiscipline.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLLesson.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLLessonLogEvent.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLRing.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLStudent.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLStudentsInGroups.cs" />
+    <Compile Include="wnu\MySQLViews\MySQLTeacherForDiscipline.cs" />
+    <Compile Include="wnu\WnuUpload.cs" />
+    <Compile Include="wnu\WnuUploadData.cs" />
+    <EmbeddedResource Include="Forms\AllChanges.resx">
+      <DependentUpon>AllChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Auditoriums.resx">
+      <DependentUpon>Auditoriums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\AuditoriumEventsList.resx">
+      <DependentUpon>AuditoriumEventsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\AuditoriumList.resx">
+      <DependentUpon>AuditoriumList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\CalendarList.resx">
+      <DependentUpon>CalendarList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\ConfigOptionsList.resx">
+      <DependentUpon>ConfigOptionsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\DisciplineList.resx">
+      <DependentUpon>DisciplineList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\FacultyList.resx">
+      <DependentUpon>FacultyList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\Lessons\AddLesson.resx">
+      <DependentUpon>AddLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\Lessons\EditLesson.resx">
+      <DependentUpon>EditLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\Lessons\RemoveLesson.resx">
+      <DependentUpon>RemoveLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\RingList.resx">
+      <DependentUpon>RingList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\StudentList.resx">
+      <DependentUpon>StudentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\StudentGroupList.resx">
+      <DependentUpon>StudentGroupList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DBLists\TeacherList.resx">
+      <DependentUpon>TeacherList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MultipleView.resx">
+      <DependentUpon>MultipleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OneAuditorium.resx">
+      <DependentUpon>OneAuditorium.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\teacherHours.resx">
+      <DependentUpon>teacherHours.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Schedule.Constants\Schedule.Constants.csproj">
+      <Project>{f4769d95-8167-49b2-9ad5-5e8d066df64a}</Project>
+      <Name>Schedule.Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule.DomainClasses\Schedule.DomainClasses.csproj">
+      <Project>{04c588a6-087c-4d73-966c-6402e717545c}</Project>
+      <Name>Schedule.DomainClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule.Repository\Schedule.Repositories.csproj">
+      <Project>{8b084795-2d5d-4185-abf7-0719a3d709c3}</Project>
+      <Name>Schedule.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule.TxtImport\Schedule.TxtImport.csproj">
+      <Project>{b693bd4a-8797-4dd6-9c39-74dad07bf308}</Project>
+      <Name>Schedule.TxtImport</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
