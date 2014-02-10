@@ -70,9 +70,19 @@ namespace Schedule
             ScheduleView.DataSource = groupEvents;
 
             ScheduleView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            UpdateViewWidth();
+        }
+
+        private void UpdateViewWidth()
+        {
             for (int i = 1; i <= 7; i++)
             {
                 ScheduleView.Columns[i].HeaderText = Constants.Constants.DOWLocal[i];
+                if (i < 7)
+                {
+                    ScheduleView.Columns[i].Width = (ScheduleView.Width - ScheduleView.Columns[0].Width - 20) / 6;
+                }
+
             }
         }
 
@@ -719,6 +729,19 @@ namespace Schedule
             }
 
             var resultString = "";
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            UpdateViewWidth();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                UpdateViewWidth();
+            }
         }
     }
 }

@@ -30,6 +30,8 @@
         private void InitializeComponent()
         {
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.dayDelta = new System.Windows.Forms.Button();
+            this.scheduleHours = new System.Windows.Forms.Button();
             this.allChanges = new System.Windows.Forms.Button();
             this.auditoriums = new System.Windows.Forms.Button();
             this.oneAuditorium = new System.Windows.Forms.Button();
@@ -64,8 +66,6 @@
             this.занятостьАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.ScheduleView = new System.Windows.Forms.DataGridView();
-            this.scheduleHours = new System.Windows.Forms.Button();
-            this.dayDelta = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -102,6 +102,26 @@
             this.controlsPanel.Name = "controlsPanel";
             this.controlsPanel.Size = new System.Drawing.Size(862, 117);
             this.controlsPanel.TabIndex = 0;
+            // 
+            // dayDelta
+            // 
+            this.dayDelta.Location = new System.Drawing.Point(615, 86);
+            this.dayDelta.Name = "dayDelta";
+            this.dayDelta.Size = new System.Drawing.Size(33, 23);
+            this.dayDelta.TabIndex = 22;
+            this.dayDelta.Text = "Δ";
+            this.dayDelta.UseVisualStyleBackColor = true;
+            this.dayDelta.Click += new System.EventHandler(this.dayDelta_Click);
+            // 
+            // scheduleHours
+            // 
+            this.scheduleHours.Location = new System.Drawing.Point(654, 84);
+            this.scheduleHours.Name = "scheduleHours";
+            this.scheduleHours.Size = new System.Drawing.Size(192, 23);
+            this.scheduleHours.TabIndex = 21;
+            this.scheduleHours.Text = "Динамика часов в семестре";
+            this.scheduleHours.UseVisualStyleBackColor = true;
+            this.scheduleHours.Click += new System.EventHandler(this.scheduleHours_Click);
             // 
             // allChanges
             // 
@@ -419,26 +439,6 @@
             this.ScheduleView.TabIndex = 1;
             this.ScheduleView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainViewCellDoubleClick);
             // 
-            // scheduleHours
-            // 
-            this.scheduleHours.Location = new System.Drawing.Point(654, 84);
-            this.scheduleHours.Name = "scheduleHours";
-            this.scheduleHours.Size = new System.Drawing.Size(192, 23);
-            this.scheduleHours.TabIndex = 21;
-            this.scheduleHours.Text = "Динамика часов в семестре";
-            this.scheduleHours.UseVisualStyleBackColor = true;
-            this.scheduleHours.Click += new System.EventHandler(this.scheduleHours_Click);
-            // 
-            // dayDelta
-            // 
-            this.dayDelta.Location = new System.Drawing.Point(615, 86);
-            this.dayDelta.Name = "dayDelta";
-            this.dayDelta.Size = new System.Drawing.Size(33, 23);
-            this.dayDelta.TabIndex = 22;
-            this.dayDelta.Text = "Δ";
-            this.dayDelta.UseVisualStyleBackColor = true;
-            this.dayDelta.Click += new System.EventHandler(this.dayDelta_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -450,6 +450,8 @@
             this.Name = "MainForm";
             this.Text = "Расписание";
             this.Load += new System.EventHandler(this.MainFormLoad);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.controlsPanel.ResumeLayout(false);
             this.controlsPanel.PerformLayout();
             this.menuStrip1.ResumeLayout(false);

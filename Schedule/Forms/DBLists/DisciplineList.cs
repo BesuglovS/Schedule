@@ -32,12 +32,15 @@ namespace Schedule.Forms.DBLists
                 Attestation.Items.Add(attestationForm.Value);
             }
 
-            Group.Items.Clear();
-            var groups = _repo.GetAllStudentGroups();
-            foreach (var gr in groups.OrderBy(g => g.Name))
-            {
-                Group.Items.Add(gr.Name);
-            }
+
+            var groups = _repo.GetAllStudentGroups()
+                .OrderBy(g => g.Name)
+                .ToList();
+
+            Group.ValueMember = "StudentGroupId";
+            Group.DisplayMember = "Name";
+            Group.DataSource = groups;
+
 
             RefreshView();
         }
@@ -81,7 +84,8 @@ namespace Schedule.Forms.DBLists
             AuditoriumHours.Text = discipline.AuditoriumHours.ToString();
             LectureHours.Text = discipline.LectureHours.ToString();
             PracticalHours.Text = discipline.PracticalHours.ToString();
-            Group.Text = discipline.StudentGroup.Name;
+
+            Group.SelectedValue = discipline.StudentGroup.StudentGroupId;
         }
 
         private void AddClick(object sender, EventArgs e)
@@ -122,12 +126,7 @@ namespace Schedule.Forms.DBLists
                 discipline.LectureHours = int.Parse(LectureHours.Text);
                 discipline.PracticalHours = int.Parse(PracticalHours.Text);
 
-                var disciplineGroup = _repo.FindStudentGroup(Group.Text);
-                if (disciplineGroup == null)
-                {
-                    disciplineGroup = new StudentGroup { Name = Group.Text };
-                    _repo.AddStudentGroup(disciplineGroup);
-                }
+                var disciplineGroup = _repo.GetStudentGroup((int)Group.SelectedValue);
                 discipline.StudentGroup = disciplineGroup;
 
                 _repo.UpdateDiscipline(discipline);

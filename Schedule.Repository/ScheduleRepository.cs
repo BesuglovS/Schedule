@@ -692,7 +692,7 @@ namespace Schedule.Repositories
                 curDiscipline.LectureHours = discipline.LectureHours;
                 curDiscipline.Name = discipline.Name;
                 curDiscipline.PracticalHours = discipline.PracticalHours;
-                var disciplineGroup = context.StudentGroups.FirstOrDefault(sg => sg.StudentGroupId == curDiscipline.StudentGroup.StudentGroupId);
+                var disciplineGroup = context.StudentGroups.FirstOrDefault(sg => sg.StudentGroupId == discipline.StudentGroup.StudentGroupId);
                 curDiscipline.StudentGroup = disciplineGroup;
 
                 context.SaveChanges();
