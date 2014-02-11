@@ -30,7 +30,8 @@ namespace Schedule.Views
                 OldLesson = evt.OldLesson.TeacherForDiscipline.Discipline.StudentGroup.Name + Environment.NewLine +
                     evt.OldLesson.TeacherForDiscipline.Discipline.Name + Environment.NewLine +
                     evt.OldLesson.TeacherForDiscipline.Teacher.FIO + Environment.NewLine +
-                    evt.OldLesson.Calendar.Date.ToString("d MM yyyy") + Environment.NewLine +
+                    evt.OldLesson.Calendar.Date.ToString("d.MM.yyyy") + Environment.NewLine +
+                    evt.OldLesson.Ring.Time.ToString("H:mm") + Environment.NewLine +
                     evt.OldLesson.Auditorium.Name;
             }
             if (evt.NewLesson == null)
@@ -42,7 +43,8 @@ namespace Schedule.Views
                 NewLesson = evt.NewLesson.TeacherForDiscipline.Discipline.StudentGroup.Name + Environment.NewLine +
                     evt.NewLesson.TeacherForDiscipline.Discipline.Name + Environment.NewLine +
                     evt.NewLesson.TeacherForDiscipline.Teacher.FIO + Environment.NewLine +
-                    evt.NewLesson.Calendar.Date.ToString("d MM yyyy") + Environment.NewLine +
+                    evt.NewLesson.Calendar.Date.ToString("d.MM.yyyy") + Environment.NewLine +
+                    evt.NewLesson.Ring.Time.ToString("H:mm") + Environment.NewLine +
                     evt.NewLesson.Auditorium.Name;
             }
             DateTime = evt.DateTime.ToString("d MM yyyy HH:mm:ss");
