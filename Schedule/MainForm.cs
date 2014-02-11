@@ -237,8 +237,9 @@ namespace Schedule
         
         private void BigRedButtonClick(object sender, EventArgs e)
         {            
-            // var sw = new StreamWriter("LogEventsMissing.txt");
             // Oops            
+            var ll = _repo.GetFiltredLessons(l => l.Ring == null);
+            var eprst = 999;
         }
 
         private List<Lesson> SchoolAudLessons()
@@ -545,33 +546,31 @@ namespace Schedule
             foreach (var disc in _repo.GetAllDisciplines())
             {
                 var disc1 = disc;
-                var disctfd = _repo.GetFiltredTeacherForDiscipline(tefd => tefd.Discipline.DisciplineId == disc1.DisciplineId).ToList();
-                if (disctfd.Count == 0)
+                var disctfd = _repo.GetFiltredTeacherForDiscipline(tefd => tefd.Discipline.DisciplineId == disc1.DisciplineId).FirstOrDefault();
+                if (disctfd == null)
                 {
                     continue;
                 }
-                var tfd = disctfd[0];
+                var tfd = disctfd;
 
-                var activeLessons = _repo.GetAllActiveLessons();
+                var tfdLessons = _repo.GetFiltredLessons(l => l.IsActive && l.TeacherForDiscipline.TeacherForDisciplineId == tfd.TeacherForDisciplineId).ToList();
 
-                var tfdLessons = activeLessons.Where(l => l.TeacherForDiscipline.TeacherForDisciplineId == tfd.TeacherForDisciplineId).ToList();
+                var hoursDiff = disc.AuditoriumHours - tfdLessons.Count * 2;
 
-                var hoursNotSet = disc.AuditoriumHours - tfdLessons.Count * 2;
-
-                result.Add(tfd.TeacherForDisciplineId + "\t" + tfd.Discipline.StudentGroup.Name +"\t" + disc.Name + "\t" + tfd.Teacher.FIO, hoursNotSet);
+                result.Add(tfd.TeacherForDisciplineId + "\t" + tfd.Discipline.StudentGroup.Name +"\t" + disc.Name + "\t" + tfd.Teacher.FIO, hoursDiff);
 
                 if (!resByTeacher.ContainsKey(tfd.Teacher.FIO))
                 {
                     resByTeacher.Add(tfd.Teacher.FIO, 0);
                 }
 
-                resByTeacher[tfd.Teacher.FIO] += hoursNotSet;
+                resByTeacher[tfd.Teacher.FIO] += hoursDiff;
 
-                if (!stat.ContainsKey(hoursNotSet))
+                if (!stat.ContainsKey(hoursDiff))
                 {
-                    stat.Add(hoursNotSet, 0);
+                    stat.Add(hoursDiff, 0);
                 }
-                stat[hoursNotSet]++;
+                stat[hoursDiff]++;
             }
 
             var sr = new StreamWriter("stat.txt");

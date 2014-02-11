@@ -404,6 +404,16 @@ namespace Schedule.Repositories
                 curStudent.I = student.I;
                 curStudent.O = student.O;
 
+                curStudent.ZachNumber = student.ZachNumber;
+                curStudent.BirthDate = student.BirthDate;
+                curStudent.Address = student.Address;
+                curStudent.Phone = student.Phone;
+                curStudent.Starosta = student.Starosta;
+                curStudent.NFactor = student.NFactor;
+                curStudent.PaidEdu = student.PaidEdu;
+                curStudent.Expelled = student.Expelled;
+                curStudent.Orders = student.Orders;
+
                 context.SaveChanges();
             }
         }
