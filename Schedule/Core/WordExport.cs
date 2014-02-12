@@ -316,6 +316,8 @@ namespace Schedule.Core
             {
                 oWord.Quit();
             }
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(oWord);
         }
 
         public static void ExportSchedulePage(
