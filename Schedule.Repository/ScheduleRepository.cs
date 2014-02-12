@@ -1754,9 +1754,9 @@ namespace Schedule.Repositories
                 var curAE = context.AuditoriumEvents.FirstOrDefault(evt => evt.AuditoriumEventId == ae.AuditoriumEventId);
 
                 curAE.Name = ae.Name;
-                curAE.Calendar = ae.Calendar;
-                curAE.Ring = ae.Ring;
-                curAE.Auditorium = ae.Auditorium;
+                curAE.Calendar = context.Calendars.FirstOrDefault(c => c.CalendarId == ae.Calendar.CalendarId);
+                curAE.Ring = context.Rings.FirstOrDefault(r => r.RingId == ae.Ring.RingId);
+                curAE.Auditorium = context.Auditoriums.FirstOrDefault(a => a.AuditoriumId == ae.Auditorium.AuditoriumId);
 
                 context.SaveChanges();
             }
