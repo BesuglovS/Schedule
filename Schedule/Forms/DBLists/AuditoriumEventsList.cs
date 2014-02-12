@@ -55,7 +55,7 @@ namespace Schedule.Forms.DBLists
             }
             else
             {
-                var calendar = _repo.GetFirstFiltredCalendar(c => c.Date.Date == eventDate.Value);
+                var calendar = _repo.GetFirstFiltredCalendar(c => c.Date.Date == eventDate.Value.Date);
 
                 if (calendar == null)
                 {
