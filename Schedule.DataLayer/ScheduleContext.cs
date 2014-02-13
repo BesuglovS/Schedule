@@ -8,6 +8,11 @@ namespace Schedule.DataLayer
 {
     public class ScheduleContext : DbContext
     {
+        public ScheduleContext()
+            : base("Name=ScheduleConnection")
+        {
+        }
+
         public ScheduleContext(string connectionString)
             : base(connectionString)
         {
