@@ -15,6 +15,7 @@ using Schedule.Core;
 using System.IO;
 using Application = Microsoft.Office.Interop.Word.Application;
 using Schedule.Forms;
+using Schedule.Forms.DBOperations;
 
 namespace Schedule
 {
@@ -798,7 +799,7 @@ namespace Schedule
                 messageString += _repo.GetFaculty(dowFac.Item1).Letter + " - " + Constants.Constants.DOWLocal[Constants.Constants.DOWRemap[(int)dowFac.Item2]] + Environment.NewLine;
             }
 
-            MessageBox.Show(messageString);
+            MessageBox.Show(messageString, "Изменения на сегодня");
         }
 
         private void MainForm_ResizeEnd(object sender, EventArgs e)
@@ -812,6 +813,17 @@ namespace Schedule
             {
                 UpdateViewWidth();
             }
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var openDBForm = new OpenDB();
+            openDBForm.ShowDialog();
         }
     }
 }

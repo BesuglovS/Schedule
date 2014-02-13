@@ -15,15 +15,24 @@ namespace Schedule.Repositories
 {
     public class ScheduleRepository : IDisposable
     {
+        public string ConnectionString { get; set; }
+
         #region Global
-        public ScheduleRepository()
+        public ScheduleRepository(string connectionString = "Name=ScheduleConnection")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ScheduleContext, Configuration>());
+
+            ConnectionString = connectionString;
         }
-        
+
+        public void ChangeConnectionString(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
+
         public void RecreateDB()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 context.Database.Delete();
                 context.Database.CreateIfNotExists();
@@ -41,7 +50,7 @@ namespace Schedule.Repositories
         #region IDisposable
         private void Dispose(bool b)
         {
-            
+
         }
 
         public void Dispose()
@@ -53,7 +62,7 @@ namespace Schedule.Repositories
         #region AuditoriumRepository
         public List<Auditorium> GetAllAuditoriums()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Auditoriums.ToList();
             }
@@ -61,7 +70,7 @@ namespace Schedule.Repositories
 
         public List<Auditorium> GetFiltredAuditoriums(Func<Auditorium, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Auditoriums.ToList().Where(condition).ToList();
             }
@@ -69,7 +78,7 @@ namespace Schedule.Repositories
 
         public Auditorium GetFirstFiltredAuditoriums(Func<Auditorium, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Auditoriums.ToList().FirstOrDefault(condition);
             }
@@ -77,7 +86,7 @@ namespace Schedule.Repositories
 
         public Auditorium GetAuditorium(int auditoriumId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Auditoriums.FirstOrDefault(a => a.AuditoriumId == auditoriumId);
             }
@@ -85,7 +94,7 @@ namespace Schedule.Repositories
 
         public Auditorium FindAuditorium(string name)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Auditoriums.FirstOrDefault(a => a.Name == name);
             }
@@ -93,7 +102,7 @@ namespace Schedule.Repositories
 
         public void AddAuditorium(Auditorium aud)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 aud.AuditoriumId = 0;
 
@@ -104,7 +113,7 @@ namespace Schedule.Repositories
 
         public void UpdateAuditorium(Auditorium aud)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curAud = context.Auditoriums.FirstOrDefault(a => a.AuditoriumId == aud.AuditoriumId);
 
@@ -116,7 +125,7 @@ namespace Schedule.Repositories
 
         public void RemoveAuditorium(int auditoriumId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var aud = context.Auditoriums.FirstOrDefault(a => a.AuditoriumId == auditoriumId);
 
@@ -127,7 +136,7 @@ namespace Schedule.Repositories
 
         public void AddAuditoriumRange(IEnumerable<Auditorium> audList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var aud in audList)
                 {
@@ -143,7 +152,7 @@ namespace Schedule.Repositories
         #region CalendarRepository
         public List<Calendar> GetAllCalendars()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Calendars.ToList();
             }
@@ -151,7 +160,7 @@ namespace Schedule.Repositories
 
         public List<Calendar> GetFiltredCalendars(Func<Calendar, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Calendars.ToList().Where(condition).ToList();
             }
@@ -159,7 +168,7 @@ namespace Schedule.Repositories
 
         public Calendar GetFirstFiltredCalendar(Func<Calendar, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Calendars.ToList().FirstOrDefault(condition);
             }
@@ -167,7 +176,7 @@ namespace Schedule.Repositories
 
         public Calendar GetCalendar(int calendarId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Calendars.FirstOrDefault(c => c.CalendarId == calendarId);
             }
@@ -175,7 +184,7 @@ namespace Schedule.Repositories
 
         public Calendar FindCalendar(DateTime date)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Calendars.FirstOrDefault(c => c.Date == date);
             }
@@ -183,7 +192,7 @@ namespace Schedule.Repositories
 
         public void AddCalendar(Calendar calendar)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 calendar.CalendarId = 0;
 
@@ -194,7 +203,7 @@ namespace Schedule.Repositories
 
         public void UpdateCalendar(Calendar calendar)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curCalendar = context.Calendars.FirstOrDefault(c => c.CalendarId == calendar.CalendarId);
 
@@ -206,7 +215,7 @@ namespace Schedule.Repositories
 
         public void RemoveCalendar(int calendarId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var calendar = context.Calendars.FirstOrDefault(c => c.CalendarId == calendarId);
 
@@ -217,7 +226,7 @@ namespace Schedule.Repositories
 
         public void AddCalendarRange(IEnumerable<Calendar> calendarList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var calendar in calendarList)
                 {
@@ -233,7 +242,7 @@ namespace Schedule.Repositories
         #region RingRepository
         public List<Ring> GetAllRings()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Rings.ToList();
             }
@@ -241,7 +250,7 @@ namespace Schedule.Repositories
 
         public List<Ring> GetFiltredRings(Func<Ring, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Rings.ToList().Where(condition).ToList();
             }
@@ -249,7 +258,7 @@ namespace Schedule.Repositories
 
         public Ring GetFirstFiltredRing(Func<Ring, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Rings.ToList().FirstOrDefault(condition);
             }
@@ -257,7 +266,7 @@ namespace Schedule.Repositories
 
         public Ring GetRing(int ringId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Rings.FirstOrDefault(r => r.RingId == ringId);
             }
@@ -265,7 +274,7 @@ namespace Schedule.Repositories
 
         public Ring FindRing(DateTime time)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Rings.FirstOrDefault(r => ((r.Time.Hour == time.Hour) && (r.Time.Minute == time.Minute)));
             }
@@ -273,7 +282,7 @@ namespace Schedule.Repositories
 
         public void AddRing(Ring ring)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 ring.RingId = 0;
 
@@ -284,7 +293,7 @@ namespace Schedule.Repositories
 
         public void UpdateRing(Ring ring)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curRing = context.Rings.FirstOrDefault(r => r.RingId == ring.RingId);
 
@@ -296,7 +305,7 @@ namespace Schedule.Repositories
 
         public void RemoveRing(int ringId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var ring = context.Rings.FirstOrDefault(r => r.RingId == ringId);
 
@@ -307,7 +316,7 @@ namespace Schedule.Repositories
 
         public void AddRingRange(IEnumerable<Ring> ringList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var ring in ringList)
                 {
@@ -323,7 +332,7 @@ namespace Schedule.Repositories
         #region StudentRepository
         public List<Student> GetAllStudents()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Students.ToList();
             }
@@ -331,7 +340,7 @@ namespace Schedule.Repositories
 
         public List<Student> GetGroupStudents(string groupName)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var group = context.StudentGroups.FirstOrDefault(g => g.Name == groupName);
                 if (group == null)
@@ -345,7 +354,7 @@ namespace Schedule.Repositories
 
         public List<Student> GetFiltredStudents(Func<Student, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Students.ToList().Where(condition).ToList();
             }
@@ -353,7 +362,7 @@ namespace Schedule.Repositories
 
         public Student GetFirstFiltredStudents(Func<Student, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Students.ToList().FirstOrDefault(condition);
             }
@@ -361,7 +370,7 @@ namespace Schedule.Repositories
 
         public Student GetStudent(int studentId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Students.FirstOrDefault(s => s.StudentId == studentId);
             }
@@ -369,7 +378,7 @@ namespace Schedule.Repositories
 
         public Student FindStudent(string f, string i, string o)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Students.FirstOrDefault(s => s.F == f && s.I == i && s.O == o);
             }
@@ -377,7 +386,7 @@ namespace Schedule.Repositories
 
         public Student FindStudent(string zachNumber)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Students.FirstOrDefault(s => s.ZachNumber == zachNumber);
             }
@@ -385,7 +394,7 @@ namespace Schedule.Repositories
 
         public void AddStudent(Student student)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 student.StudentId = 0;
 
@@ -396,7 +405,7 @@ namespace Schedule.Repositories
 
         public void UpdateStudent(Student student)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curStudent = context.Students.FirstOrDefault(s => s.StudentId == student.StudentId);
 
@@ -420,7 +429,7 @@ namespace Schedule.Repositories
 
         public void RemoveStudent(int studentId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var student = context.Students.FirstOrDefault(s => s.StudentId == studentId);
 
@@ -431,7 +440,7 @@ namespace Schedule.Repositories
 
         public void AddStudentRange(IEnumerable<Student> studentList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var student in studentList)
                 {
@@ -447,7 +456,7 @@ namespace Schedule.Repositories
         #region StudentGroupRepository
         public List<StudentGroup> GetAllStudentGroups()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentGroups.ToList();
             }
@@ -455,7 +464,7 @@ namespace Schedule.Repositories
 
         public List<StudentGroup> GetFiltredStudentGroups(Func<StudentGroup, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentGroups.ToList().Where(condition).ToList();
             }
@@ -463,7 +472,7 @@ namespace Schedule.Repositories
 
         public StudentGroup GetFirstFiltredStudentGroups(Func<StudentGroup, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentGroups.ToList().FirstOrDefault(condition);
             }
@@ -471,7 +480,7 @@ namespace Schedule.Repositories
 
         public StudentGroup GetStudentGroup(int studentGroupId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentGroups.FirstOrDefault(sg => sg.StudentGroupId == studentGroupId);
             }
@@ -479,7 +488,7 @@ namespace Schedule.Repositories
 
         public StudentGroup FindStudentGroup(string name)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentGroups.FirstOrDefault(sg => sg.Name == name);
             }
@@ -487,7 +496,7 @@ namespace Schedule.Repositories
 
         public void AddStudentGroup(StudentGroup studentGroup)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 studentGroup.StudentGroupId = 0;
 
@@ -498,7 +507,7 @@ namespace Schedule.Repositories
 
         public void UpdateStudentGroup(StudentGroup studentGroup)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curStudentGroup = context.StudentGroups.FirstOrDefault(sg => sg.StudentGroupId == studentGroup.StudentGroupId);
 
@@ -510,7 +519,7 @@ namespace Schedule.Repositories
 
         public void RemoveStudentGroup(int studentGroupId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var studentGroup = context.StudentGroups.FirstOrDefault(sg => sg.StudentGroupId == studentGroupId);
 
@@ -521,7 +530,7 @@ namespace Schedule.Repositories
 
         public void AddStudentGroupRange(IEnumerable<StudentGroup> studentGroupList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var studentGroup in studentGroupList)
                 {
@@ -537,7 +546,7 @@ namespace Schedule.Repositories
         #region TeacherRepository
         public List<Teacher> GetAllTeachers()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Teachers.ToList();
             }
@@ -545,7 +554,7 @@ namespace Schedule.Repositories
 
         public List<Teacher> GetFiltredTeachers(Func<Teacher, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Teachers.ToList().Where(condition).ToList();
             }
@@ -553,7 +562,7 @@ namespace Schedule.Repositories
 
         public Teacher GetFirstFiltredTeachers(Func<Teacher, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Teachers.ToList().FirstOrDefault(condition);
             }
@@ -561,7 +570,7 @@ namespace Schedule.Repositories
 
         public Teacher GetTeacher(int teacherId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Teachers.FirstOrDefault(t => t.TeacherId == teacherId);
             }
@@ -569,7 +578,7 @@ namespace Schedule.Repositories
 
         public Teacher FindTeacher(string fio, string phone)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Teachers.FirstOrDefault(t => t.FIO == fio && t.Phone == phone);
             }
@@ -577,7 +586,7 @@ namespace Schedule.Repositories
 
         public void AddTeacher(Teacher teacher)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 teacher.TeacherId = 0;
 
@@ -588,7 +597,7 @@ namespace Schedule.Repositories
 
         public void UpdateTeacher(Teacher teacher)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curTeacher = context.Teachers.FirstOrDefault(t => t.TeacherId == teacher.TeacherId);
 
@@ -601,7 +610,7 @@ namespace Schedule.Repositories
 
         public void RemoveTeacher(int teacherId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var teacher = context.Teachers.FirstOrDefault(t => t.TeacherId == teacherId);
 
@@ -612,7 +621,7 @@ namespace Schedule.Repositories
 
         public void AddTeacherRange(IEnumerable<Teacher> teacherList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var teacher in teacherList)
                 {
@@ -628,7 +637,7 @@ namespace Schedule.Repositories
         #region DisciplineRepository
         public List<Discipline> GetAllDisciplines()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Disciplines.Include(d => d.StudentGroup).ToList();
             }
@@ -636,7 +645,7 @@ namespace Schedule.Repositories
 
         public List<Discipline> GetFiltredDisciplines(Func<Discipline, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Disciplines.Include(d => d.StudentGroup).ToList().Where(condition).ToList();
             }
@@ -644,7 +653,7 @@ namespace Schedule.Repositories
 
         public List<Discipline> GetTeacherDisciplines(Teacher teacher)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.TeacherForDiscipline.Where(tfd => tfd.Teacher.TeacherId == teacher.TeacherId).Select(tefd => tefd.Discipline).Include(d => d.StudentGroup).ToList();
             }
@@ -652,7 +661,7 @@ namespace Schedule.Repositories
 
         public Discipline GetFirstFiltredDisciplines(Func<Discipline, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Disciplines.Include(d => d.StudentGroup).ToList().FirstOrDefault(condition);
             }
@@ -660,7 +669,7 @@ namespace Schedule.Repositories
 
         public Discipline GetDiscipline(int disciplineId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Disciplines.Include(d => d.StudentGroup).FirstOrDefault(d => d.DisciplineId == disciplineId);
             }
@@ -668,7 +677,7 @@ namespace Schedule.Repositories
 
         public Discipline FindDiscipline(string name, int attestation, int auditoriumHours, int lectureHours, int practicalHours, string groupName)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Disciplines.Include(d => d.StudentGroup).FirstOrDefault(
                     d => d.Name == name &&
@@ -682,7 +691,7 @@ namespace Schedule.Repositories
 
         public void AddDiscipline(Discipline discipline)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 discipline.StudentGroup = context.StudentGroups.FirstOrDefault(sg => sg.StudentGroupId == discipline.StudentGroup.StudentGroupId);
                 context.Disciplines.Add(discipline);
@@ -693,7 +702,7 @@ namespace Schedule.Repositories
 
         public void UpdateDiscipline(Discipline discipline)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curDiscipline = context.Disciplines.FirstOrDefault(d => d.DisciplineId == discipline.DisciplineId);
 
@@ -711,7 +720,7 @@ namespace Schedule.Repositories
 
         public void RemoveDiscipline(int disciplineId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var discipline = context.Disciplines.FirstOrDefault(d => d.DisciplineId == disciplineId);
 
@@ -722,7 +731,7 @@ namespace Schedule.Repositories
 
         public void AddDisciplineRange(IEnumerable<Discipline> disciplineList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var discipline in disciplineList)
                 {
@@ -739,7 +748,7 @@ namespace Schedule.Repositories
         #region StudentsInGroupsRepository
         public List<StudentsInGroups> GetAllStudentsInGroups()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentsInGroups.Include(sig => sig.Student).Include(sig => sig.StudentGroup).ToList();
             }
@@ -747,7 +756,7 @@ namespace Schedule.Repositories
 
         public List<StudentsInGroups> GetFiltredStudentsInGroups(Func<StudentsInGroups, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentsInGroups.Include(sig => sig.Student).Include(sig => sig.StudentGroup).ToList().Where(condition).ToList();
             }
@@ -755,7 +764,7 @@ namespace Schedule.Repositories
 
         public StudentsInGroups GetFirstFiltredStudentsInGroups(Func<StudentsInGroups, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentsInGroups.Include(sig => sig.Student).Include(sig => sig.StudentGroup).ToList().FirstOrDefault(condition);
             }
@@ -763,7 +772,7 @@ namespace Schedule.Repositories
 
         public StudentsInGroups GetStudentsInGroups(int studentsInGroupsId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentsInGroups.Include(sig => sig.Student).Include(sig => sig.StudentGroup).FirstOrDefault(sig => sig.StudentsInGroupsId == studentsInGroupsId);
             }
@@ -771,7 +780,7 @@ namespace Schedule.Repositories
 
         public StudentsInGroups FindStudentsInGroups(Student s, StudentGroup sg)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentsInGroups.Include(sig => sig.Student).Include(sig => sig.StudentGroup).FirstOrDefault(sig => sig.Student.StudentId == s.StudentId && sig.StudentGroup.StudentGroupId == sg.StudentGroupId);
             }
@@ -779,7 +788,7 @@ namespace Schedule.Repositories
 
         public StudentsInGroups FindStudentsInGroups(string studentF, string studentI, string studentO, string groupName)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.StudentsInGroups.Include(sig => sig.Student).Include(sig => sig.StudentGroup).FirstOrDefault(sig =>
                     sig.Student.F == studentF &&
@@ -791,10 +800,10 @@ namespace Schedule.Repositories
 
         public void AddStudentsInGroups(StudentsInGroups studentsInGroups)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 studentsInGroups.StudentsInGroupsId = 0;
-                                
+
                 studentsInGroups.Student = context.Students.FirstOrDefault(s => s.StudentId == studentsInGroups.Student.StudentId);
                 studentsInGroups.StudentGroup = context.StudentGroups.FirstOrDefault(sg => sg.StudentGroupId == studentsInGroups.StudentGroup.StudentGroupId);
 
@@ -805,7 +814,7 @@ namespace Schedule.Repositories
 
         public void UpdateStudentsInGroups(StudentsInGroups studentsInGroups)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curStudentsInGroups = context.StudentsInGroups.FirstOrDefault(sig => sig.StudentsInGroupsId == studentsInGroups.StudentsInGroupsId);
 
@@ -818,7 +827,7 @@ namespace Schedule.Repositories
 
         public void RemoveStudentsInGroups(int studentsInGroupsId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var studentsInGroups = context.StudentsInGroups.FirstOrDefault(sig => sig.StudentsInGroupsId == studentsInGroupsId);
 
@@ -829,7 +838,7 @@ namespace Schedule.Repositories
 
         public void AddStudentsInGroupsRange(IEnumerable<StudentsInGroups> studentsInGroupsList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var studentsInGroups in studentsInGroupsList)
                 {
@@ -845,7 +854,7 @@ namespace Schedule.Repositories
         #region TeacherForDisciplineRepository
         public List<TeacherForDiscipline> GetAllTeacherForDiscipline()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.TeacherForDiscipline.Include(tfd => tfd.Teacher).Include(tfd => tfd.Discipline.StudentGroup).ToList();
             }
@@ -853,7 +862,7 @@ namespace Schedule.Repositories
 
         public List<TeacherForDiscipline> GetFiltredTeacherForDiscipline(Func<TeacherForDiscipline, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.TeacherForDiscipline.Include(tfd => tfd.Teacher).Include(tfd => tfd.Discipline.StudentGroup).ToList().Where(condition).ToList();
             }
@@ -861,7 +870,7 @@ namespace Schedule.Repositories
 
         public TeacherForDiscipline GetFirstFiltredTeacherForDiscipline(Func<TeacherForDiscipline, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.TeacherForDiscipline.Include(tfd => tfd.Teacher).Include(tfd => tfd.Discipline.StudentGroup).ToList().FirstOrDefault(condition);
             }
@@ -869,7 +878,7 @@ namespace Schedule.Repositories
 
         public TeacherForDiscipline GetTeacherForDiscipline(int teacherForDisciplineId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.TeacherForDiscipline.Include(tfd => tfd.Teacher).Include(tfd => tfd.Discipline.StudentGroup).FirstOrDefault(tfd => tfd.TeacherForDisciplineId == teacherForDisciplineId);
             }
@@ -877,7 +886,7 @@ namespace Schedule.Repositories
 
         public TeacherForDiscipline FindTeacherForDiscipline(Teacher t, Discipline d)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.TeacherForDiscipline.Include(tfd => tfd.Teacher).Include(tfd => tfd.Discipline.StudentGroup).FirstOrDefault(tfd => tfd.Teacher.TeacherId == t.TeacherId && tfd.Discipline.DisciplineId == d.DisciplineId);
             }
@@ -886,7 +895,7 @@ namespace Schedule.Repositories
         public TeacherForDiscipline FindTeacherForDiscipline(string teacherFIO, string disciplineName, int disciplineAttestation,
             int disciplineAuditoriumHours, int disciplineLectureHours, int disciplinePracticalHours, string disciplineGroupName)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.TeacherForDiscipline.Include(tfd => tfd.Teacher).Include(tfd => tfd.Discipline.StudentGroup).FirstOrDefault(tfd =>
                     tfd.Teacher.FIO == teacherFIO &&
@@ -901,7 +910,7 @@ namespace Schedule.Repositories
 
         public void AddTeacherForDiscipline(TeacherForDiscipline teacherForDiscipline)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 teacherForDiscipline.TeacherForDisciplineId = 0;
 
@@ -915,7 +924,7 @@ namespace Schedule.Repositories
 
         public void UpdateTeacherForDiscipline(TeacherForDiscipline teacherForDiscipline)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curTeacherForDiscipline = context.TeacherForDiscipline.FirstOrDefault(tfd => tfd.TeacherForDisciplineId == teacherForDiscipline.TeacherForDisciplineId);
 
@@ -928,7 +937,7 @@ namespace Schedule.Repositories
 
         public void RemoveTeacherForDiscipline(int teacherForDisciplineId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var teacherForDiscipline = context.TeacherForDiscipline.FirstOrDefault(tfd => tfd.TeacherForDisciplineId == teacherForDisciplineId);
 
@@ -939,7 +948,7 @@ namespace Schedule.Repositories
 
         public void AddTeacherForDisciplineRange(IEnumerable<TeacherForDiscipline> teacherForDisciplineList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var teacherForDiscipline in teacherForDisciplineList)
                 {
@@ -955,7 +964,7 @@ namespace Schedule.Repositories
         #region LessonRepository
         public List<Lesson> GetAllLessons()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Lessons
                     .Include(l => l.TeacherForDiscipline.Teacher)
@@ -969,7 +978,7 @@ namespace Schedule.Repositories
 
         public List<Lesson> GetAllActiveLessons()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Lessons.Include(l => l.TeacherForDiscipline.Teacher)
                     .Include(l => l.TeacherForDiscipline.Discipline.StudentGroup)
@@ -982,7 +991,7 @@ namespace Schedule.Repositories
 
         public List<Lesson> GetFiltredLessons(Func<Lesson, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Lessons.Include(l => l.TeacherForDiscipline.Teacher)
                     .Include(l => l.TeacherForDiscipline.Discipline.StudentGroup)
@@ -995,7 +1004,7 @@ namespace Schedule.Repositories
 
         public Lesson GetFirstFiltredLesson(Func<Lesson, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Lessons
                     .Include(l => l.TeacherForDiscipline.Teacher)
@@ -1009,7 +1018,7 @@ namespace Schedule.Repositories
 
         public Lesson GetLesson(int lessonId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Lessons
                     .Include(l => l.TeacherForDiscipline.Teacher)
@@ -1020,10 +1029,10 @@ namespace Schedule.Repositories
                     .FirstOrDefault(l => l.LessonId == lessonId);
             }
         }
-        
+
         public void AddLessonWOLog(Lesson lesson)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 lesson.LessonId = 0;
 
@@ -1040,7 +1049,7 @@ namespace Schedule.Repositories
 
         public void AddLesson(Lesson lesson, string publicComment = "", string hiddenComment = "")
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 lesson.LessonId = 0;
 
@@ -1067,7 +1076,7 @@ namespace Schedule.Repositories
 
         public void UpdateLesson(Lesson lesson)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curLesson = context.Lessons.FirstOrDefault(l => l.LessonId == lesson.LessonId);
 
@@ -1083,7 +1092,7 @@ namespace Schedule.Repositories
 
         public void RemoveLessonWOLog(int lessonId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var lesson = context.Lessons.FirstOrDefault(l => l.LessonId == lessonId);
 
@@ -1092,10 +1101,10 @@ namespace Schedule.Repositories
                 context.SaveChanges();
             }
         }
-        
+
         public void RemoveLessonActiveStateWOLog(int lessonId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curLesson = context.Lessons.FirstOrDefault(l => l.LessonId == lessonId);
 
@@ -1107,7 +1116,7 @@ namespace Schedule.Repositories
 
         public void RemoveLesson(int lessonId, string publicComment = "", string hiddenComment = "")
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var lesson = context.Lessons.FirstOrDefault(l => l.LessonId == lessonId);
 
@@ -1131,7 +1140,7 @@ namespace Schedule.Repositories
 
         public void AddLessonRange(IEnumerable<Lesson> lessonList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var lesson in lessonList)
                 {
@@ -1151,7 +1160,7 @@ namespace Schedule.Repositories
 
         public List<Lesson> GetGroupLessons(string groupName)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Lessons
                     .Include(l => l.TeacherForDiscipline.Teacher)
@@ -1165,7 +1174,7 @@ namespace Schedule.Repositories
 
         public Dictionary<string, Dictionary<int, Tuple<string, List<Lesson>>>> GetGroupedGroupLessons(int groupId, DateTime semesterStarts)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 // Понедельник 08:00 - {tfdId - {weeks + List<Lesson>}}
                 var result = new Dictionary<string, Dictionary<int, Tuple<string, List<Lesson>>>>();
@@ -1187,7 +1196,7 @@ namespace Schedule.Repositories
                     .Include(l => l.Auditorium)
                     .Where(l => groupsListIds.Contains(l.TeacherForDiscipline.Discipline.StudentGroup.StudentGroupId) && l.IsActive)
                     .ToList();
-                
+
                 var groupedLessons = primaryList.GroupBy(l => Constants.Constants.DOWRemap[(int)(l.Calendar.Date).DayOfWeek] * 2000 +
                     l.Ring.Time.Hour * 60 + l.Ring.Time.Minute,
                     (dow, lessons) =>
@@ -1238,7 +1247,7 @@ namespace Schedule.Repositories
         public Dictionary<int, Dictionary<string, Dictionary<int, Tuple<string, List<Lesson>>>>>
             GetFacultyDOWSchedule(int facultyId, int dowRU)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 // GroupId - 08:00 - {tfdId - {weeks + List<Lesson>}}
                 var result = new Dictionary<int, Dictionary<string, Dictionary<int, Tuple<string, List<Lesson>>>>>();
@@ -1285,18 +1294,18 @@ namespace Schedule.Repositories
                         l => l.Ring.Time.Hour * 60 + l.Ring.Time.Minute,
                         (lTime, lessons) =>
                         new
-                            {
-                                time = (lTime / 60).ToString("D2") + ":" + (lTime % 60).ToString("D2"),
-                                Groups = lessons.GroupBy(ls => ls.TeacherForDiscipline,
-                                                           (tfd, tfdLessons) =>
-                                                           new
-                                                               {
-                                                                   TFDForLessonGroup = tfd,
-                                                                   Weeks = "",
-                                                                   Lessons = tfdLessons
-                                                               }
-                                                         )
-                            }
+                        {
+                            time = (lTime / 60).ToString("D2") + ":" + (lTime % 60).ToString("D2"),
+                            Groups = lessons.GroupBy(ls => ls.TeacherForDiscipline,
+                                                       (tfd, tfdLessons) =>
+                                                       new
+                                                       {
+                                                           TFDForLessonGroup = tfd,
+                                                           Weeks = "",
+                                                           Lessons = tfdLessons
+                                                       }
+                                                     )
+                        }
                         ).OrderBy(l => int.Parse(l.time.Split(':')[0]) * 60 + int.Parse(l.time.Split(':')[1]));
 
 
@@ -1334,7 +1343,7 @@ namespace Schedule.Repositories
         #region LessonLogEventRepository
         public List<LessonLogEvent> GetAllLessonLogEvents()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.LessonLog
                     .Include(e => e.OldLesson.TeacherForDiscipline.Teacher)
@@ -1353,7 +1362,7 @@ namespace Schedule.Repositories
 
         public List<LessonLogEvent> GetFiltredLessonLogEvents(Func<LessonLogEvent, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.LessonLog
                     .Include(e => e.OldLesson.TeacherForDiscipline.Teacher)
@@ -1372,7 +1381,7 @@ namespace Schedule.Repositories
 
         public LessonLogEvent GetFirstFiltredLessonLogEvents(Func<LessonLogEvent, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.LessonLog
                     .Include(e => e.OldLesson.TeacherForDiscipline.Teacher)
@@ -1391,7 +1400,7 @@ namespace Schedule.Repositories
 
         public LessonLogEvent GetLessonLogEvent(int lessonLogEventId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.LessonLog
                     .Include(e => e.OldLesson.TeacherForDiscipline.Teacher)
@@ -1410,7 +1419,7 @@ namespace Schedule.Repositories
 
         public void AddLessonLogEvent(LessonLogEvent lessonLogEvent)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 lessonLogEvent.LessonLogEventId = 0;
                 lessonLogEvent.OldLesson = context.Lessons.FirstOrDefault(l => l.LessonId == lessonLogEvent.OldLesson.LessonId);
@@ -1423,7 +1432,7 @@ namespace Schedule.Repositories
 
         public void UpdateLessonLogEvent(LessonLogEvent lessonLogEvent)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curLessonLogEvent = context.LessonLog.FirstOrDefault(lle => lle.LessonLogEventId == lessonLogEvent.LessonLogEventId);
 
@@ -1439,7 +1448,7 @@ namespace Schedule.Repositories
 
         public void RemoveLessonLogEvent(int lessonLogEventId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var lessonLogEvent = context.LessonLog.FirstOrDefault(lle => lle.LessonLogEventId == lessonLogEventId);
 
@@ -1450,7 +1459,7 @@ namespace Schedule.Repositories
 
         public void AddLessonLogEventRange(IEnumerable<LessonLogEvent> lessonLogEventList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var lessonLogEvent in lessonLogEventList)
                 {
@@ -1471,7 +1480,7 @@ namespace Schedule.Repositories
 
         public DateTime GetSemesterStarts()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var semesterStartsOption = context.Config
                     .FirstOrDefault(co => co.Key == "Semester Starts");
@@ -1486,7 +1495,7 @@ namespace Schedule.Repositories
 
         public List<ConfigOption> GetAllConfigOptions()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Config.ToList();
             }
@@ -1494,7 +1503,7 @@ namespace Schedule.Repositories
 
         public List<ConfigOption> GetFiltredConfigOptions(Func<ConfigOption, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Config.ToList().Where(condition).ToList();
             }
@@ -1502,7 +1511,7 @@ namespace Schedule.Repositories
 
         public ConfigOption GetFirstFiltredConfigOption(Func<ConfigOption, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Config.ToList().FirstOrDefault(condition);
             }
@@ -1510,7 +1519,7 @@ namespace Schedule.Repositories
 
         public ConfigOption GetConfigOption(int configOptionId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Config.FirstOrDefault(co => co.ConfigOptionId == configOptionId);
             }
@@ -1518,7 +1527,7 @@ namespace Schedule.Repositories
 
         public ConfigOption GetConfigOptionByKey(string key)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Config.FirstOrDefault(co => co.Key == key);
             }
@@ -1526,7 +1535,7 @@ namespace Schedule.Repositories
 
         public void AddConfigOption(ConfigOption co)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 context.Config.Add(co);
                 context.SaveChanges();
@@ -1535,7 +1544,7 @@ namespace Schedule.Repositories
 
         public void UpdateConfigOption(ConfigOption co)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curCO = context.Config.FirstOrDefault(opt => opt.ConfigOptionId == co.ConfigOptionId);
 
@@ -1548,7 +1557,7 @@ namespace Schedule.Repositories
 
         public void RemoveConfigOption(int configOptionId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var co = context.Config.FirstOrDefault(opt => opt.ConfigOptionId == configOptionId);
 
@@ -1559,7 +1568,7 @@ namespace Schedule.Repositories
 
         public void AddConfigOptionRange(IEnumerable<ConfigOption> coList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var co in coList)
                 {
@@ -1573,17 +1582,17 @@ namespace Schedule.Repositories
 
         public ConfigOption FindConfigOption(string key)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Config.FirstOrDefault(op => op.Key == key);
             }
         }
         #endregion
-        
+
         #region FacultyRepository
         public List<Faculty> GetAllFaculties()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Faculties.ToList();
             }
@@ -1591,7 +1600,7 @@ namespace Schedule.Repositories
 
         public List<Faculty> GetFiltredFaculties(Func<Faculty, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Faculties.ToList().Where(condition).ToList();
             }
@@ -1599,7 +1608,7 @@ namespace Schedule.Repositories
 
         public Faculty GetFirstFiltredFaculty(Func<Faculty, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Faculties.ToList().FirstOrDefault(condition);
             }
@@ -1607,7 +1616,7 @@ namespace Schedule.Repositories
 
         public Faculty GetFaculty(int facultyId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Faculties.FirstOrDefault(f => f.FacultyId == facultyId);
             }
@@ -1615,7 +1624,7 @@ namespace Schedule.Repositories
 
         public Faculty FindFaculty(string name)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Faculties.FirstOrDefault(f => f.Name == name);
             }
@@ -1623,7 +1632,7 @@ namespace Schedule.Repositories
 
         public void AddFaculty(Faculty faculty)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 faculty.FacultyId = 0;
 
@@ -1634,7 +1643,7 @@ namespace Schedule.Repositories
 
         public void UpdateFaculty(Faculty faculty)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curFaculty = context.Faculties.FirstOrDefault(f => f.FacultyId == faculty.FacultyId);
 
@@ -1648,7 +1657,7 @@ namespace Schedule.Repositories
 
         public void RemoveFaculty(int facultyId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var faculty = context.Faculties.FirstOrDefault(f => f.FacultyId == facultyId);
 
@@ -1659,7 +1668,7 @@ namespace Schedule.Repositories
 
         public void AddFacultyRange(IEnumerable<Faculty> facultyList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var faculty in facultyList)
                 {
@@ -1673,7 +1682,7 @@ namespace Schedule.Repositories
 
         public List<StudentGroup> GetFacultyGroups(int facultyId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.GroupsInFaculties
                     .Where(gif => gif.Faculty.FacultyId == facultyId)
@@ -1686,7 +1695,7 @@ namespace Schedule.Repositories
         #region AuditoriumEventsRepository
         public List<AuditoriumEvent> GetAllAuditoriumEvents()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.AuditoriumEvents
                     .Include(l => l.Calendar)
@@ -1698,7 +1707,7 @@ namespace Schedule.Repositories
 
         public List<AuditoriumEvent> GetFiltredAuditoriumEvents(Func<AuditoriumEvent, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.AuditoriumEvents
                     .Include(l => l.Calendar)
@@ -1710,7 +1719,7 @@ namespace Schedule.Repositories
 
         public AuditoriumEvent GetFirstFiltredAuditoriumEvent(Func<AuditoriumEvent, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.AuditoriumEvents
                     .Include(l => l.Calendar)
@@ -1722,7 +1731,7 @@ namespace Schedule.Repositories
 
         public AuditoriumEvent GetAuditoriumEvent(int auditoriumEventId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.AuditoriumEvents
                     .Include(l => l.Calendar)
@@ -1734,7 +1743,7 @@ namespace Schedule.Repositories
 
         public void AddAuditoriumEvent(AuditoriumEvent ae)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 ae.AuditoriumEventId = 0;
 
@@ -1749,7 +1758,7 @@ namespace Schedule.Repositories
 
         public void UpdateAuditoriumEvent(AuditoriumEvent ae)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curAE = context.AuditoriumEvents.FirstOrDefault(evt => evt.AuditoriumEventId == ae.AuditoriumEventId);
 
@@ -1764,7 +1773,7 @@ namespace Schedule.Repositories
 
         public void RemoveAuditoriumEvent(int auditoriumEventId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var aud = context.AuditoriumEvents.FirstOrDefault(evt => evt.AuditoriumEventId == auditoriumEventId);
 
@@ -1775,7 +1784,7 @@ namespace Schedule.Repositories
 
         public void AddAuditoriumEventRange(IEnumerable<AuditoriumEvent> aeList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var ae in aeList)
                 {
@@ -1796,7 +1805,7 @@ namespace Schedule.Repositories
         #region GroupsInFacultyRepository
         public List<GroupsInFaculty> GetAllGroupsInFaculty()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.GroupsInFaculties
                     .Include(gif => gif.StudentGroup)
@@ -1807,7 +1816,7 @@ namespace Schedule.Repositories
 
         public List<GroupsInFaculty> GetFiltredGroupsInFaculty(Func<GroupsInFaculty, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.GroupsInFaculties
                     .Include(gif => gif.StudentGroup)
@@ -1818,7 +1827,7 @@ namespace Schedule.Repositories
 
         public GroupsInFaculty GetFirstFiltredGroupsInFaculty(Func<GroupsInFaculty, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.GroupsInFaculties
                     .Include(gif => gif.StudentGroup)
@@ -1829,7 +1838,7 @@ namespace Schedule.Repositories
 
         public GroupsInFaculty GetGroupsInFaculty(int groupsInFaculty)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.GroupsInFaculties
                     .Include(gif => gif.StudentGroup)
@@ -1840,7 +1849,7 @@ namespace Schedule.Repositories
 
         public GroupsInFaculty FindGroupsInFaculty(StudentGroup sg, Faculty f)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.GroupsInFaculties
                     .Include(gif => gif.StudentGroup)
@@ -1852,7 +1861,7 @@ namespace Schedule.Repositories
 
         public GroupsInFaculty FindGroupsInFaculty(string studentGroupName, string facultyName)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.GroupsInFaculties
                     .Include(gif => gif.StudentGroup)
@@ -1864,7 +1873,7 @@ namespace Schedule.Repositories
 
         public void AddGroupsInFaculty(GroupsInFaculty groupsInFaculty)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 groupsInFaculty.GroupsInFacultyId = 0;
 
@@ -1878,7 +1887,7 @@ namespace Schedule.Repositories
 
         public void UpdateGroupsInFaculty(GroupsInFaculty groupsInFaculty)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curGroupsInFaculty = context.GroupsInFaculties.FirstOrDefault(gif => gif.GroupsInFacultyId == groupsInFaculty.GroupsInFacultyId);
 
@@ -1891,7 +1900,7 @@ namespace Schedule.Repositories
 
         public void RemoveGroupsInFaculty(int groupsInFacultyId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var groupsInFaculty = context.GroupsInFaculties.FirstOrDefault(gif => gif.GroupsInFacultyId == groupsInFacultyId);
 
@@ -1902,7 +1911,7 @@ namespace Schedule.Repositories
 
         public void AddGroupsInFacultyRange(IEnumerable<GroupsInFaculty> groupsInFacultiesList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var groupsInFaculty in groupsInFacultiesList)
                 {
@@ -1922,7 +1931,7 @@ namespace Schedule.Repositories
         #region ScheduleNoteRepository
         public List<ScheduleNote> GetAllScheduleNotes()
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context
                     .ScheduleNotes
@@ -1937,7 +1946,7 @@ namespace Schedule.Repositories
 
         public List<ScheduleNote> GetFiltredScheduleNotes(Func<ScheduleNote, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context
                     .ScheduleNotes
@@ -1954,7 +1963,7 @@ namespace Schedule.Repositories
 
         public ScheduleNote GetFirstFiltredScheduleNotes(Func<ScheduleNote, bool> condition)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context
                     .ScheduleNotes
@@ -1970,7 +1979,7 @@ namespace Schedule.Repositories
 
         public ScheduleNote GetScheduleNote(int ScheduleNoteId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context
                     .ScheduleNotes
@@ -1985,7 +1994,7 @@ namespace Schedule.Repositories
 
         public void AddScheduleNote(ScheduleNote sNote)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 sNote.ScheduleNoteId = 0;
 
@@ -2001,7 +2010,7 @@ namespace Schedule.Repositories
 
         public void UpdateScheduleNote(ScheduleNote sNote)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var curNote = context.ScheduleNotes.FirstOrDefault(sn => sn.ScheduleNoteId == sNote.ScheduleNoteId);
 
@@ -2014,7 +2023,7 @@ namespace Schedule.Repositories
 
         public void RemoveScheduleNote(int ScheduleNoteId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var sNote = context.ScheduleNotes.FirstOrDefault(sn => sn.ScheduleNoteId == ScheduleNoteId);
 
@@ -2025,7 +2034,7 @@ namespace Schedule.Repositories
 
         public void AddScheduleNoteRange(IEnumerable<ScheduleNote> scheduleNoteList)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 foreach (var sNote in scheduleNoteList)
                 {
@@ -2244,7 +2253,7 @@ namespace Schedule.Repositories
 
         public DateTime GetDateFromDowAndWeek(int dow, int week)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var semesterStartsOption = context.Config
                     .FirstOrDefault(co => co.Key == "Semester Starts");
@@ -2260,7 +2269,7 @@ namespace Schedule.Repositories
 
         public List<Auditorium> GetFreeAuditoriumAtTime(Calendar calendar, Ring ring)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var occupiedAudIds = context.Lessons
                     .Where(l =>
@@ -2278,7 +2287,7 @@ namespace Schedule.Repositories
 
         public List<Auditorium> GetFreeAuditoriumAtDOWTime(List<int> calendars, Ring ring)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var occupiedAudIds = context.Lessons
                     .Where(l =>
@@ -2294,7 +2303,7 @@ namespace Schedule.Repositories
                 return result;
             }
         }
-                
+
         public int CalculateWeekNumber(DateTime dateTime)
         {
             return (dateTime - GetSemesterStarts()).Days / 7 + 1;
@@ -2302,7 +2311,7 @@ namespace Schedule.Repositories
 
         public Dictionary<int, Dictionary<string, Dictionary<int, Tuple<string, List<Lesson>>>>> GetGroupedGroupsLessons(List<int> groupListIds)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 var semesterStarts = GetSemesterStarts();
 
@@ -2330,7 +2339,7 @@ namespace Schedule.Repositories
                         .Include(l => l.Auditorium)
                         .Where(l => groupsListIds.Contains(l.TeacherForDiscipline.Discipline.StudentGroup.StudentGroupId) && l.IsActive)
                         .ToList();
-                    
+
                     var groupedLessons = primaryList.GroupBy(l => Constants.Constants.DOWRemap[(int)(l.Calendar.Date).DayOfWeek] * 2000 +
                         l.Ring.Time.Hour * 60 + l.Ring.Time.Minute,
                         (dow, lessons) =>
@@ -2428,8 +2437,8 @@ namespace Schedule.Repositories
                     dowLessons = GetFiltredLessons(l =>
                             l.Calendar.Date.DayOfWeek == dow &&
                             l.IsActive &&
-                            CalculateWeekNumber(l.Calendar.Date) == weekNumber && 
-                            AuditoriumBuilding(l.Auditorium.Name) == buildingNumber) 
+                            CalculateWeekNumber(l.Calendar.Date) == weekNumber &&
+                            AuditoriumBuilding(l.Auditorium.Name) == buildingNumber)
                         .ToList();
                 }
             }
@@ -2438,7 +2447,7 @@ namespace Schedule.Repositories
             {
                 if (!data.ContainsKey(lesson.Ring.RingId))
                 {
-                    data.Add(lesson.Ring.RingId, new Dictionary<int,Dictionary<int,List<Lesson>>>());
+                    data.Add(lesson.Ring.RingId, new Dictionary<int, Dictionary<int, List<Lesson>>>());
                 }
 
                 if (!data[lesson.Ring.RingId].ContainsKey(lesson.Auditorium.AuditoriumId))
@@ -2451,7 +2460,7 @@ namespace Schedule.Repositories
                     data[lesson.Ring.RingId][lesson.Auditorium.AuditoriumId].Add(lesson.TeacherForDiscipline.TeacherForDisciplineId, new List<Lesson>());
                 }
 
-                data[lesson.Ring.RingId][lesson.Auditorium.AuditoriumId][lesson.TeacherForDiscipline.TeacherForDisciplineId].Add(lesson);                
+                data[lesson.Ring.RingId][lesson.Auditorium.AuditoriumId][lesson.TeacherForDiscipline.TeacherForDisciplineId].Add(lesson);
             }
 
             var rings = GetAllRings().ToDictionary(r => r.RingId, r => r.Time);
@@ -2471,10 +2480,10 @@ namespace Schedule.Repositories
                     result[ring.Key].Add(aud.Key, new List<string>());
 
                     foreach (var tfd in aud.Value)
-                    {                        
-                        result[ring.Key][aud.Key].Add(tfd.Value[0].TeacherForDiscipline.Discipline.StudentGroup.Name + Environment.NewLine + 
-                            "(" + GetWeekStringFromLessons(tfd.Value) + ")@" + 
-                            tfd.Value[0].TeacherForDiscipline.Teacher.FIO +"@"+ tfd.Value[0].TeacherForDiscipline.Discipline.Name);
+                    {
+                        result[ring.Key][aud.Key].Add(tfd.Value[0].TeacherForDiscipline.Discipline.StudentGroup.Name + Environment.NewLine +
+                            "(" + GetWeekStringFromLessons(tfd.Value) + ")@" +
+                            tfd.Value[0].TeacherForDiscipline.Teacher.FIO + "@" + tfd.Value[0].TeacherForDiscipline.Discipline.Name);
                     }
                 }
             }
@@ -2495,8 +2504,8 @@ namespace Schedule.Repositories
             {
                 if (buildingNumber == -1)
                 {
-                    audEvents = GetFiltredAuditoriumEvents(evt => 
-                        evt.Calendar.Date.DayOfWeek == dow && 
+                    audEvents = GetFiltredAuditoriumEvents(evt =>
+                        evt.Calendar.Date.DayOfWeek == dow &&
                         CalculateWeekNumber(evt.Calendar.Date) == weekNumber);
                 }
                 else
@@ -2512,36 +2521,36 @@ namespace Schedule.Repositories
             int curEventId;
             var eventsIds = new Dictionary<int, string>();
             var eventsData = new Dictionary<int, Dictionary<int, Dictionary<int, List<AuditoriumEvent>>>>();
-            
+
             foreach (var evt in audEvents)
             {
                 if (!eventsData.ContainsKey(evt.Ring.RingId))
                 {
-                    eventsData.Add(evt.Ring.RingId, new Dictionary<int,Dictionary<int,List<AuditoriumEvent>>>());
+                    eventsData.Add(evt.Ring.RingId, new Dictionary<int, Dictionary<int, List<AuditoriumEvent>>>());
                 }
 
                 if (!eventsData[evt.Ring.RingId].ContainsKey(evt.Auditorium.AuditoriumId))
                 {
-                    eventsData[evt.Ring.RingId].Add(evt.Auditorium.AuditoriumId, new Dictionary<int,List<AuditoriumEvent>>());
+                    eventsData[evt.Ring.RingId].Add(evt.Auditorium.AuditoriumId, new Dictionary<int, List<AuditoriumEvent>>());
                 }
 
                 var eventFound = (eventsIds.Count(e => e.Value == evt.Name) > 0) ? true : false;
                 if (eventFound)
                 {
-                    curEventId = eventsIds.First(e => e.Value == evt.Name).Key;                    
+                    curEventId = eventsIds.First(e => e.Value == evt.Name).Key;
                 }
                 else
                 {
                     eventsIds.Add(eventId, evt.Name);
                     curEventId = eventId;
-                    eventId++;                    
+                    eventId++;
                 }
 
                 if (!eventsData[evt.Ring.RingId][evt.Auditorium.AuditoriumId].ContainsKey(curEventId))
                 {
                     eventsData[evt.Ring.RingId][evt.Auditorium.AuditoriumId].Add(curEventId, new List<AuditoriumEvent>());
                 }
-                
+
                 eventsData[evt.Ring.RingId][evt.Auditorium.AuditoriumId][curEventId].Add(evt);
             }
 
@@ -2576,7 +2585,7 @@ namespace Schedule.Repositories
             }
 
             result = result.OrderBy(r => rings[r.Key].TimeOfDay).ToDictionary(r => r.Key, r => r.Value);
-            
+
             return result;
         }
 
@@ -2743,7 +2752,7 @@ namespace Schedule.Repositories
 
         public int getTFDHours(int tfdId)
         {
-            using (var context = new ScheduleContext())
+            using (var context = new ScheduleContext(ConnectionString))
             {
                 return context.Lessons.Count(l => l.IsActive && l.TeacherForDiscipline.TeacherForDisciplineId == tfdId) * 2;
             }

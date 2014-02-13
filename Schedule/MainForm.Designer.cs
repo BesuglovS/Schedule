@@ -66,6 +66,12 @@
             this.занятостьАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.ScheduleView = new System.Windows.Forms.DataGridView();
+            this.DatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MakeACopyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlsPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -321,6 +327,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DatabaseToolStripMenuItem,
             this.справочникиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -439,6 +446,49 @@
             this.ScheduleView.TabIndex = 1;
             this.ScheduleView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainViewCellDoubleClick);
             // 
+            // DatabaseToolStripMenuItem
+            // 
+            this.DatabaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CreateNewToolStripMenuItem,
+            this.OpenToolStripMenuItem,
+            this.MakeACopyToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.ExitToolStripMenuItem});
+            this.DatabaseToolStripMenuItem.Name = "DatabaseToolStripMenuItem";
+            this.DatabaseToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.DatabaseToolStripMenuItem.Text = "База данных";
+            // 
+            // CreateNewToolStripMenuItem
+            // 
+            this.CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem";
+            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.CreateNewToolStripMenuItem.Text = "Создать новую";
+            // 
+            // OpenToolStripMenuItem
+            // 
+            this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.OpenToolStripMenuItem.Text = "Открыть";
+            this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // MakeACopyToolStripMenuItem
+            // 
+            this.MakeACopyToolStripMenuItem.Name = "MakeACopyToolStripMenuItem";
+            this.MakeACopyToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.MakeACopyToolStripMenuItem.Text = "Сделать копию";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(155, 6);
+            // 
+            // ExitToolStripMenuItem
+            // 
+            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.ExitToolStripMenuItem.Text = "Выход";
+            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -501,6 +551,12 @@
         private System.Windows.Forms.Button allChanges;
         private System.Windows.Forms.Button scheduleHours;
         private System.Windows.Forms.Button dayDelta;
+        private System.Windows.Forms.ToolStripMenuItem DatabaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MakeACopyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
     }
 }
 
