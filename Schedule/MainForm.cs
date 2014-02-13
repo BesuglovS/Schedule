@@ -717,17 +717,88 @@ namespace Schedule
 
         private void dayDelta_Click(object sender, EventArgs e)
         {
-            // group + DOW
-            var result = new List<Tuple<string, DayOfWeek>>();
+            // facultyId + DOW
+            var result = new List<Tuple<int, DayOfWeek>>();
 
             var evts = _repo.GetFiltredLessonLogEvents(lle => lle.DateTime.Date == DateTime.Now.Date);
 
+            var fg = _repo.GetAllGroupsInFaculty()
+                .GroupBy(gif => gif.Faculty.FacultyId, 
+                         gif => gif.StudentGroup.StudentGroupId)
+                .ToList();
+
             foreach (var ev in evts)
             {
-                //var groupName = ev.
+                int studentGroupId = -1;
+                if (ev.OldLesson != null)
+                {
+                    studentGroupId = ev.OldLesson.TeacherForDiscipline.Discipline.StudentGroup.StudentGroupId;
+
+                    var studentIds = _repo
+                    .GetFiltredStudentsInGroups(sig => sig.StudentGroup.StudentGroupId == studentGroupId)
+                    .Select(sig => sig.Student.StudentId)
+                    .ToList();
+
+                    var facultyScheduleChanged = new List<int>();
+
+                    foreach (var faculty in fg)
+                    {
+                        if (_repo.GetFiltredStudentsInGroups(sig => studentIds.Contains(sig.Student.StudentId) && faculty.Contains(sig.StudentGroup.StudentGroupId)).Any())
+                        {
+                            facultyScheduleChanged.Add(faculty.Key);
+                        }
+                    }
+
+                    foreach (var faculty in facultyScheduleChanged)
+                    {
+                        var dowFacTuple = Tuple.Create(faculty, ev.OldLesson.Calendar.Date.DayOfWeek);
+                        if (!result.Contains(dowFacTuple))
+                        {
+                            result.Add(dowFacTuple);
+                        }
+                    }
+                }
+
+                
+
+                if (ev.NewLesson != null)
+                {
+                    studentGroupId = ev.NewLesson.TeacherForDiscipline.Discipline.StudentGroup.StudentGroupId;
+
+                    var studentIds = _repo
+                    .GetFiltredStudentsInGroups(sig => sig.StudentGroup.StudentGroupId == studentGroupId)
+                    .Select(sig => sig.Student.StudentId)
+                    .ToList();
+
+                    var facultyScheduleChanged = new List<int>();
+
+                    foreach (var faculty in fg)
+                    {
+                        if (_repo.GetFiltredStudentsInGroups(sig => studentIds.Contains(sig.Student.StudentId) && faculty.Contains(sig.StudentGroup.StudentGroupId)).Any())
+                        {
+                            facultyScheduleChanged.Add(faculty.Key);
+                        }
+                    }
+
+                    foreach (var faculty in facultyScheduleChanged)
+                    {
+                        var dowFacTuple = Tuple.Create(faculty, ev.NewLesson.Calendar.Date.DayOfWeek);
+                        if (!result.Contains(dowFacTuple))
+                        {
+                            result.Add(dowFacTuple);
+                        }
+                    }
+                }                
             }
 
-            var resultString = "";
+            var messageString = "";
+
+            foreach (var dowFac in result.OrderBy(df => df.Item1).ThenBy(df => df.Item2))
+            {
+                messageString += _repo.GetFaculty(dowFac.Item1).Letter + " - " + Constants.Constants.DOWLocal[Constants.Constants.DOWRemap[(int)dowFac.Item2]] + Environment.NewLine;
+            }
+
+            MessageBox.Show(messageString);
         }
 
         private void MainForm_ResizeEnd(object sender, EventArgs e)
