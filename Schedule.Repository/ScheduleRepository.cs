@@ -10,6 +10,7 @@ using Schedule.DomainClasses.Main;
 using Schedule.DomainClasses.Logs;
 using Calendar = Schedule.DomainClasses.Main.Calendar;
 using System.IO;
+using System.Data.Entity.Infrastructure;
 
 namespace Schedule.Repositories
 {
@@ -37,6 +38,24 @@ namespace Schedule.Repositories
                 context.Database.Delete();
                 context.Database.CreateIfNotExists();
             }
+        }
+
+        public void CreateDB()
+        {   
+            using (var context = new ScheduleContext(ConnectionString))
+            {
+                if (!context.Database.Exists())
+                {
+                    ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                }
+            }
+        }
+
+        public void cloneDB(ScheduleRepository scheduleRepository)
+        {
+            this.RecreateDB();
+
+            // TODO : Скопировать базу данных
         }
 
         public void DebugLog(string message)
@@ -2757,6 +2776,6 @@ namespace Schedule.Repositories
                 return context.Lessons.Count(l => l.IsActive && l.TeacherForDiscipline.TeacherForDisciplineId == tfdId) * 2;
             }
         }
-        #endregion
+        #endregion        
     }
 }

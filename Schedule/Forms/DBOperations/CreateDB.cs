@@ -10,33 +10,30 @@ using System.Windows.Forms;
 
 namespace Schedule.Forms.DBOperations
 {
-    public partial class OpenDB : Form
+    public partial class CreateDB : Form
     {
         MainForm mainForm;
 
-        public OpenDB(MainForm mainForm)
+        public CreateDB(MainForm mainForm)
         {
             InitializeComponent();
 
             this.mainForm = mainForm;
         }
 
-        private void Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void openDatabase_Click(object sender, EventArgs e)
+        private void createDatabase_Click(object sender, EventArgs e)
         {
             if (sqlExpressDB.Checked)
             {
-                var connectionString = "data source=tcp:127.0.0.1,1433; Database=" + SQLExpressDatabaseName.Text + ";User ID = sa;Password = ghjuhfvvf";
+                var dbName = SQLExpressDatabaseName.Text;
+                var connectionString = "data source=tcp:127.0.0.1,1433; Database=" + dbName + ";User ID = sa;Password = ghjuhfvvf";
 
                 mainForm._repo.ConnectionString = connectionString;
+
+                mainForm._repo.CreateDB();
 
                 Close();
             }
         }
-
     }
 }

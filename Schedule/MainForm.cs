@@ -21,7 +21,7 @@ namespace Schedule
 {
     public partial class MainForm : Form
     {
-        ScheduleRepository _repo = new ScheduleRepository();
+        public ScheduleRepository _repo = new ScheduleRepository();
 
         public MainForm()
         {
@@ -42,7 +42,7 @@ namespace Schedule
 
             groupList.ValueMember = "StudentGroupId";
             groupList.DisplayMember = "Name";
-            groupList.DataSource = groups;
+            groupList.DataSource = groups;            
 
             var faculties = _repo
                 .GetAllFaculties()
@@ -53,6 +53,7 @@ namespace Schedule
             FacultyList.ValueMember = "FacultyId";
             FacultyList.DataSource = faculties;
 
+            DOWList.Items.Clear();
             foreach (var dow in Constants.Constants.DOWLocal.Values)
             {
                 DOWList.Items.Add(dow);
@@ -76,6 +77,11 @@ namespace Schedule
 
         private void UpdateViewWidth()
         {
+            if (ScheduleView.DataSource == null)
+            {
+                return;
+            }
+
             for (int i = 1; i <= 7; i++)
             {
                 ScheduleView.Columns[i].HeaderText = Constants.Constants.DOWLocal[i];
@@ -822,8 +828,23 @@ namespace Schedule
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var openDBForm = new OpenDB();
+            var openDBForm = new OpenDB(this);
             openDBForm.ShowDialog();
+
+            LoadLists();
+        }
+
+        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newDBForm = new CreateDB(this);
+            newDBForm.ShowDialog();
+
+            LoadLists();
+        }
+
+        private void MakeACopyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
