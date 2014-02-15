@@ -72,6 +72,7 @@
             this.занятостьАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.ScheduleView = new System.Windows.Forms.DataGridView();
+            this.excelExport = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -80,6 +81,7 @@
             // 
             // controlsPanel
             // 
+            this.controlsPanel.Controls.Add(this.excelExport);
             this.controlsPanel.Controls.Add(this.dayDelta);
             this.controlsPanel.Controls.Add(this.scheduleHours);
             this.controlsPanel.Controls.Add(this.allChanges);
@@ -106,7 +108,7 @@
             this.controlsPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.controlsPanel.Location = new System.Drawing.Point(0, 0);
             this.controlsPanel.Name = "controlsPanel";
-            this.controlsPanel.Size = new System.Drawing.Size(862, 117);
+            this.controlsPanel.Size = new System.Drawing.Size(862, 149);
             this.controlsPanel.TabIndex = 0;
             // 
             // dayDelta
@@ -471,9 +473,9 @@
             // 
             this.viewPanel.Controls.Add(this.ScheduleView);
             this.viewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.viewPanel.Location = new System.Drawing.Point(0, 117);
+            this.viewPanel.Location = new System.Drawing.Point(0, 149);
             this.viewPanel.Name = "viewPanel";
-            this.viewPanel.Size = new System.Drawing.Size(862, 472);
+            this.viewPanel.Size = new System.Drawing.Size(862, 440);
             this.viewPanel.TabIndex = 1;
             // 
             // ScheduleView
@@ -487,9 +489,19 @@
             this.ScheduleView.Name = "ScheduleView";
             this.ScheduleView.ReadOnly = true;
             this.ScheduleView.RowHeadersVisible = false;
-            this.ScheduleView.Size = new System.Drawing.Size(862, 472);
+            this.ScheduleView.Size = new System.Drawing.Size(862, 440);
             this.ScheduleView.TabIndex = 1;
             this.ScheduleView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainViewCellDoubleClick);
+            // 
+            // excelExport
+            // 
+            this.excelExport.Location = new System.Drawing.Point(12, 115);
+            this.excelExport.Name = "excelExport";
+            this.excelExport.Size = new System.Drawing.Size(154, 23);
+            this.excelExport.TabIndex = 23;
+            this.excelExport.Text = "Экспорт в Excel";
+            this.excelExport.UseVisualStyleBackColor = true;
+            this.excelExport.Click += new System.EventHandler(this.excelExport_Click);
             // 
             // MainForm
             // 
@@ -559,6 +571,7 @@
         private System.Windows.Forms.ToolStripMenuItem MakeACopyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
+        private System.Windows.Forms.Button excelExport;
     }
 }
 

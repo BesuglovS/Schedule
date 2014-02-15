@@ -16,6 +16,10 @@ using System.IO;
 using Application = Microsoft.Office.Interop.Word.Application;
 using Schedule.Forms;
 using Schedule.Forms.DBOperations;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Tuple = System.Tuple;
 
 namespace Schedule
 {
@@ -845,6 +849,44 @@ namespace Schedule
         private void MakeACopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void excelExport_Click(object sender, EventArgs e)
+        {
+            SpreadsheetDocument spreadsheet;
+            Worksheet worksheet;
+            
+            spreadsheet = Excel.CreateWorkbook("ScheduleExport.xlsx");
+            if (spreadsheet == null)
+            {
+                return;
+            }
+
+            Excel.AddBasicStyles(spreadsheet);
+            Excel.AddWorksheet(spreadsheet, "Расписание");
+            worksheet = spreadsheet.WorkbookPart.WorksheetParts.First().Worksheet;
+
+            var lessons = _repo
+                .GetAllActiveLessons()
+                .OrderBy(l => l.Calendar.Date.Date)
+                .ThenBy(l => l.Ring.Time.TimeOfDay)
+                .ThenBy(l => l.Auditorium.Name)                
+                .ToList();
+
+            for (int i = 0; i < lessons.Count; i++)
+            {
+                Excel.SetCellValue(spreadsheet, worksheet, 1, (uint)(i + 1), lessons[i].Calendar.Date.Date, 4, true);
+                Excel.SetCellValue(spreadsheet, worksheet, 2, (uint)(i + 1), lessons[i].Ring.Time, 5, true);
+                Excel.SetCellValue(spreadsheet, worksheet, 3, (uint)(i + 1), lessons[i].TeacherForDiscipline.Discipline.Name, false, false);
+                Excel.SetCellValue(spreadsheet, worksheet, 4, (uint)(i + 1), lessons[i].TeacherForDiscipline.Teacher.FIO, false, false);
+                Excel.SetCellValue(spreadsheet, worksheet, 5, (uint)(i + 1), lessons[i].TeacherForDiscipline.Discipline.StudentGroup.Name, false, false);
+                Excel.SetCellValue(spreadsheet, worksheet, 6, (uint)(i + 1), lessons[i].Auditorium.Name, false, false);
+            }
+
+            worksheet.Save();
+            spreadsheet.Close();
+
+            System.Diagnostics.Process.Start("ScheduleExport.xlsx");            
         }
     }
 }
