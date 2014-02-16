@@ -34,7 +34,21 @@ namespace Schedule
 
         private void MainFormLoad(object sender, EventArgs e)
         {
+            if (File.Exists("Initial Database connection string.txt"))
+            {
+                var sr = new StreamReader("Initial Database connection string.txt");
+                var connectionString = sr.ReadLine();
+                sr.Close();
+
+                _repo.ConnectionString = connectionString;
+            }
+
             LoadLists();
+
+            if (_repo != null)
+            {
+                this.Text = "Расписание (" + Utilities.ExtractDBOrConnectionName(_repo.ConnectionString) + ")";
+            }
         }
 
         private void LoadLists()
@@ -836,6 +850,11 @@ namespace Schedule
             openDBForm.ShowDialog();
 
             LoadLists();
+
+            if (_repo != null)
+            {
+                this.Text = "Расписание (" + Utilities.ExtractDBOrConnectionName(_repo.ConnectionString) + ")";
+            }
         }
 
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
