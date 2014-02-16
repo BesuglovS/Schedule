@@ -319,7 +319,15 @@ namespace Schedule.Forms.DBLists
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                addStudentToGroup_Click(sender, e);
+                addStudentToGroup.PerformClick();
+            }
+        }
+
+        private void StudentGroupName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                add.PerformClick();
             }
         }
     }

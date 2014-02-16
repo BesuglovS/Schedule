@@ -105,10 +105,13 @@ namespace Schedule.Forms.DBLists
 
         private void add_Click(object sender, EventArgs e)
         {
-            if (_repo.FindStudent(ZachNumber.Text) != null)
+            if (checkZachNumberDistinction.Checked)
             {
-                MessageBox.Show("Такой студент уже есть.");
-                return;
+                if (_repo.FindStudent(ZachNumber.Text) != null)
+                {
+                    MessageBox.Show("Такой студент уже есть.");
+                    return;
+                }
             }
 
             var newStudent = new Student { 
@@ -235,6 +238,20 @@ namespace Schedule.Forms.DBLists
         private void studentGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshView();
+        }
+
+        private void showAll_Click(object sender, EventArgs e)
+        {
+            studentGroups.SelectedIndex = -1;
+            RefreshView();
+        }
+
+        private void FBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                add.PerformClick();
+            }
         }
     }
 }

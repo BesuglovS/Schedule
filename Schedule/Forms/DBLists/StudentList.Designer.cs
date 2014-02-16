@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.ControlsPanel = new System.Windows.Forms.Panel();
+            this.showAll = new System.Windows.Forms.Button();
+            this.checkZachNumberDistinction = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.studentGroups = new System.Windows.Forms.ComboBox();
             this.studentCombo = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.OrderList = new System.Windows.Forms.TextBox();
@@ -56,8 +60,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ListPanel = new System.Windows.Forms.Panel();
             this.StudentListView = new System.Windows.Forms.DataGridView();
-            this.studentGroups = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.ControlsPanel.SuspendLayout();
             this.ListPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.StudentListView)).BeginInit();
@@ -65,6 +67,8 @@
             // 
             // ControlsPanel
             // 
+            this.ControlsPanel.Controls.Add(this.showAll);
+            this.ControlsPanel.Controls.Add(this.checkZachNumberDistinction);
             this.ControlsPanel.Controls.Add(this.label9);
             this.ControlsPanel.Controls.Add(this.studentGroups);
             this.ControlsPanel.Controls.Add(this.studentCombo);
@@ -97,6 +101,45 @@
             this.ControlsPanel.Name = "ControlsPanel";
             this.ControlsPanel.Size = new System.Drawing.Size(230, 821);
             this.ControlsPanel.TabIndex = 10;
+            // 
+            // showAll
+            // 
+            this.showAll.Location = new System.Drawing.Point(14, 600);
+            this.showAll.Name = "showAll";
+            this.showAll.Size = new System.Drawing.Size(206, 23);
+            this.showAll.TabIndex = 64;
+            this.showAll.Text = "Показать всех";
+            this.showAll.UseVisualStyleBackColor = true;
+            this.showAll.Click += new System.EventHandler(this.showAll_Click);
+            // 
+            // checkZachNumberDistinction
+            // 
+            this.checkZachNumberDistinction.AutoSize = true;
+            this.checkZachNumberDistinction.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkZachNumberDistinction.Location = new System.Drawing.Point(15, 578);
+            this.checkZachNumberDistinction.Name = "checkZachNumberDistinction";
+            this.checkZachNumberDistinction.Size = new System.Drawing.Size(201, 16);
+            this.checkZachNumberDistinction.TabIndex = 63;
+            this.checkZachNumberDistinction.Text = "Проверять уникальность номера зачётки";
+            this.checkZachNumberDistinction.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 554);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(42, 13);
+            this.label9.TabIndex = 62;
+            this.label9.Text = "Группа";
+            // 
+            // studentGroups
+            // 
+            this.studentGroups.FormattingEnabled = true;
+            this.studentGroups.Location = new System.Drawing.Point(86, 551);
+            this.studentGroups.Name = "studentGroups";
+            this.studentGroups.Size = new System.Drawing.Size(130, 21);
+            this.studentGroups.TabIndex = 61;
+            this.studentGroups.SelectedIndexChanged += new System.EventHandler(this.studentGroups_SelectedIndexChanged);
             // 
             // studentCombo
             // 
@@ -308,6 +351,7 @@
             this.FBox.Name = "FBox";
             this.FBox.Size = new System.Drawing.Size(198, 20);
             this.FBox.TabIndex = 36;
+            this.FBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FBox_KeyPress);
             // 
             // label1
             // 
@@ -342,24 +386,6 @@
             this.StudentListView.Size = new System.Drawing.Size(968, 821);
             this.StudentListView.TabIndex = 1;
             this.StudentListView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.StudentListView_CellClick);
-            // 
-            // studentGroups
-            // 
-            this.studentGroups.FormattingEnabled = true;
-            this.studentGroups.Location = new System.Drawing.Point(86, 551);
-            this.studentGroups.Name = "studentGroups";
-            this.studentGroups.Size = new System.Drawing.Size(130, 21);
-            this.studentGroups.TabIndex = 61;
-            this.studentGroups.SelectedIndexChanged += new System.EventHandler(this.studentGroups_SelectedIndexChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(16, 554);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(42, 13);
-            this.label9.TabIndex = 62;
-            this.label9.Text = "Группа";
             // 
             // StudentList
             // 
@@ -411,5 +437,7 @@
         private System.Windows.Forms.ComboBox studentCombo;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox studentGroups;
+        private System.Windows.Forms.CheckBox checkZachNumberDistinction;
+        private System.Windows.Forms.Button showAll;
     }
 }

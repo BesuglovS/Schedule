@@ -212,6 +212,7 @@
             this.StudentGroupName.Name = "StudentGroupName";
             this.StudentGroupName.Size = new System.Drawing.Size(238, 20);
             this.StudentGroupName.TabIndex = 23;
+            this.StudentGroupName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.StudentGroupName_KeyPress);
             // 
             // label1
             // 
