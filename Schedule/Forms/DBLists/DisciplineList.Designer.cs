@@ -89,7 +89,7 @@
             this.Paste.Location = new System.Drawing.Point(209, 25);
             this.Paste.Name = "Paste";
             this.Paste.Size = new System.Drawing.Size(18, 20);
-            this.Paste.TabIndex = 1;
+            this.Paste.TabIndex = 100;
             this.Paste.Text = "*";
             this.Paste.UseVisualStyleBackColor = true;
             this.Paste.Click += new System.EventHandler(this.PasteClick);
@@ -111,7 +111,7 @@
             this.Attestation.Location = new System.Drawing.Point(6, 63);
             this.Attestation.Name = "Attestation";
             this.Attestation.Size = new System.Drawing.Size(197, 21);
-            this.Attestation.TabIndex = 1;
+            this.Attestation.TabIndex = 101;
             // 
             // Group
             // 
@@ -169,8 +169,9 @@
             this.AuditoriumHours.Location = new System.Drawing.Point(6, 103);
             this.AuditoriumHours.Name = "AuditoriumHours";
             this.AuditoriumHours.Size = new System.Drawing.Size(198, 20);
-            this.AuditoriumHours.TabIndex = 2;
+            this.AuditoriumHours.TabIndex = 1;
             this.AuditoriumHours.Enter += new System.EventHandler(this.HoursEnter);
+            this.AuditoriumHours.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AuditoriumHours_KeyPress);
             // 
             // label3
             // 
@@ -226,6 +227,7 @@
             this.DisciplineName.Name = "DisciplineName";
             this.DisciplineName.Size = new System.Drawing.Size(197, 20);
             this.DisciplineName.TabIndex = 0;
+            this.DisciplineName.Leave += new System.EventHandler(this.DisciplineName_Leave);
             // 
             // label1
             // 
@@ -267,7 +269,6 @@
             this.DiscipineListView.Location = new System.Drawing.Point(0, 0);
             this.DiscipineListView.Name = "DiscipineListView";
             this.DiscipineListView.ReadOnly = true;
-            this.DiscipineListView.RowHeadersVisible = false;
             this.DiscipineListView.Size = new System.Drawing.Size(769, 451);
             this.DiscipineListView.TabIndex = 0;
             this.DiscipineListView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DiscipineListViewCellClick);

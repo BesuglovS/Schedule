@@ -90,11 +90,22 @@ namespace Schedule.Forms.DBLists
 
         private void AddClick(object sender, EventArgs e)
         {
-            if (_repo.FindDiscipline(DisciplineName.Text, Attestation.SelectedIndex, int.Parse(AuditoriumHours.Text), 
-                int.Parse(LectureHours.Text), int.Parse(PracticalHours.Text), Group.Text) != null)
+            int audHours;
+            int.TryParse(AuditoriumHours.Text, out audHours);
+            int lecHours;
+            int.TryParse(LectureHours.Text, out lecHours);
+            int practHours;
+            int.TryParse(PracticalHours.Text, out practHours);
+            if (_repo.FindDiscipline(DisciplineName.Text, Attestation.SelectedIndex,
+                audHours, lecHours, practHours, Group.Text) != null)
             {
                 MessageBox.Show("Такая дисциплина уже есть.");
                 return;
+            }
+
+            if (Attestation.SelectedIndex == -1)
+            {
+                Attestation.SelectedIndex = Constants.Constants.Attestation.Where(a => a.Value == "-").FirstOrDefault().Key;
             }
 
             var disciplineGroup = _repo.FindStudentGroup(Group.Text);
@@ -104,13 +115,23 @@ namespace Schedule.Forms.DBLists
                 _repo.AddStudentGroup(disciplineGroup);
             }
 
-            var newDiscipline = new Discipline { Attestation = Attestation.SelectedIndex, AuditoriumHours = int.Parse(AuditoriumHours.Text),
-                LectureHours = int.Parse(LectureHours.Text), PracticalHours = int.Parse(PracticalHours.Text), Name = DisciplineName.Text,
-                StudentGroup = disciplineGroup};
+            var newDiscipline = new Discipline
+            {
+                Attestation = Attestation.SelectedIndex,
+                AuditoriumHours = audHours,
+                LectureHours = lecHours,
+                PracticalHours = practHours,
+                Name = DisciplineName.Text,
+                StudentGroup = disciplineGroup
+            };
 
             _repo.AddDiscipline(newDiscipline);
 
             RefreshView();
+
+            DisciplineName.Text = "";
+            AuditoriumHours.Text = "";
+            DisciplineName.Focus();
         }
 
         private void UpdateClick(object sender, EventArgs e)
@@ -137,6 +158,23 @@ namespace Schedule.Forms.DBLists
 
         private void RemoveClick(object sender, EventArgs e)
         {
+            if (DiscipineListView.SelectedRows.Count > 1)
+            {
+                var discIds = new List<int>();
+                for (int i = 0; i < DiscipineListView.SelectedRows.Count; i++)
+                {
+                    discIds.Add(((List<DisciplineView>)DiscipineListView.DataSource)[DiscipineListView.SelectedRows[i].Index].DisciplineId);
+                }
+
+                foreach (var id in discIds)
+                {
+                    _repo.RemoveDiscipline(id);
+                }
+
+                RefreshView();
+                return;
+            }
+
             if (DiscipineListView.SelectedCells.Count > 0)
             {
                 var discView = ((List<DisciplineView>)DiscipineListView.DataSource)[DiscipineListView.SelectedCells[0].RowIndex];
@@ -185,6 +223,22 @@ namespace Schedule.Forms.DBLists
         private void HoursEnter(object sender, EventArgs e)
         {
             ((TextBox)sender).SelectAll();
+        }
+
+        private void AuditoriumHours_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                add.PerformClick();
+            }
+        }
+
+        private void DisciplineName_Leave(object sender, EventArgs e)
+        {
+            if (DisciplineName.Text.Length > 0)
+            {
+                DisciplineName.Text = DisciplineName.Text.Substring(0, 1).ToUpper() + DisciplineName.Text.Substring(1);
+            }
         }
     }
 }

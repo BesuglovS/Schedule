@@ -38,5 +38,13 @@ namespace Schedule.Forms.DBOperations
             }
         }
 
+        private void SQLExpressDatabaseName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                openDatabase.PerformClick();
+            }
+        }
+
     }
 }

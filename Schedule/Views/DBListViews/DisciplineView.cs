@@ -26,7 +26,7 @@ namespace Schedule.Views.DBListViews
         {
             DisciplineId = discipline.DisciplineId;
             Name = discipline.Name;
-            Attestation = Constants.Constants.Attestation[discipline.Attestation];
+            Attestation = Constants.Constants.Attestation.ContainsKey(discipline.Attestation) ? Constants.Constants.Attestation[discipline.Attestation] : "";
             AuditoriumHours = discipline.AuditoriumHours;
             LectureHours = discipline.LectureHours;
             PracticalHours = discipline.PracticalHours;

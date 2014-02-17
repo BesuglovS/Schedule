@@ -129,6 +129,7 @@
             this.SQLExpressDatabaseName.Name = "SQLExpressDatabaseName";
             this.SQLExpressDatabaseName.Size = new System.Drawing.Size(412, 20);
             this.SQLExpressDatabaseName.TabIndex = 1;
+            this.SQLExpressDatabaseName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SQLExpressDatabaseName_KeyPress);
             // 
             // sqlExpressDB
             // 
