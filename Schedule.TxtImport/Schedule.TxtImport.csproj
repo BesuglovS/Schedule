@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -37,6 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +52,10 @@
     <ProjectReference Include="..\Schedule.DomainClasses\Schedule.DomainClasses.csproj">
       <Project>{04c588a6-087c-4d73-966c-6402e717545c}</Project>
       <Name>Schedule.DomainClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule.Repository\Schedule.Repositories.csproj">
+      <Project>{8b084795-2d5d-4185-abf7-0719a3d709c3}</Project>
+      <Name>Schedule.Repositories</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
