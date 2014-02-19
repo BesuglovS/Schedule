@@ -50,8 +50,12 @@
             this.viewPanel = new System.Windows.Forms.Panel();
             this.DiscipineListView = new System.Windows.Forms.DataGridView();
             this.filterPanel = new System.Windows.Forms.Panel();
-            this.filterButton = new System.Windows.Forms.Button();
             this.filter = new System.Windows.Forms.TextBox();
+            this.showAll = new System.Windows.Forms.Button();
+            this.discnameFilter = new System.Windows.Forms.CheckBox();
+            this.groupnameFilter = new System.Windows.Forms.CheckBox();
+            this.groupNameList = new System.Windows.Forms.ComboBox();
+            this.refresh = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.ListPanel.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -245,7 +249,7 @@
             this.ListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListPanel.Location = new System.Drawing.Point(233, 0);
             this.ListPanel.Name = "ListPanel";
-            this.ListPanel.Size = new System.Drawing.Size(769, 506);
+            this.ListPanel.Size = new System.Drawing.Size(999, 506);
             this.ListPanel.TabIndex = 28;
             // 
             // viewPanel
@@ -254,7 +258,7 @@
             this.viewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewPanel.Location = new System.Drawing.Point(0, 55);
             this.viewPanel.Name = "viewPanel";
-            this.viewPanel.Size = new System.Drawing.Size(769, 451);
+            this.viewPanel.Size = new System.Drawing.Size(999, 451);
             this.viewPanel.TabIndex = 2;
             // 
             // DiscipineListView
@@ -269,42 +273,81 @@
             this.DiscipineListView.Location = new System.Drawing.Point(0, 0);
             this.DiscipineListView.Name = "DiscipineListView";
             this.DiscipineListView.ReadOnly = true;
-            this.DiscipineListView.Size = new System.Drawing.Size(769, 451);
+            this.DiscipineListView.Size = new System.Drawing.Size(999, 451);
             this.DiscipineListView.TabIndex = 0;
             this.DiscipineListView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DiscipineListViewCellClick);
             // 
             // filterPanel
             // 
-            this.filterPanel.Controls.Add(this.filterButton);
+            this.filterPanel.Controls.Add(this.refresh);
+            this.filterPanel.Controls.Add(this.groupNameList);
+            this.filterPanel.Controls.Add(this.groupnameFilter);
+            this.filterPanel.Controls.Add(this.discnameFilter);
+            this.filterPanel.Controls.Add(this.showAll);
             this.filterPanel.Controls.Add(this.filter);
             this.filterPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.filterPanel.Location = new System.Drawing.Point(0, 0);
             this.filterPanel.Name = "filterPanel";
-            this.filterPanel.Size = new System.Drawing.Size(769, 55);
+            this.filterPanel.Size = new System.Drawing.Size(999, 55);
             this.filterPanel.TabIndex = 1;
-            // 
-            // filterButton
-            // 
-            this.filterButton.Location = new System.Drawing.Point(620, 13);
-            this.filterButton.Name = "filterButton";
-            this.filterButton.Size = new System.Drawing.Size(135, 23);
-            this.filterButton.TabIndex = 1;
-            this.filterButton.Text = "Отфильтровать";
-            this.filterButton.UseVisualStyleBackColor = true;
-            this.filterButton.Click += new System.EventHandler(this.FilterButtonClick);
             // 
             // filter
             // 
-            this.filter.Location = new System.Drawing.Point(12, 15);
+            this.filter.Location = new System.Drawing.Point(27, 15);
             this.filter.Name = "filter";
-            this.filter.Size = new System.Drawing.Size(602, 20);
+            this.filter.Size = new System.Drawing.Size(267, 20);
             this.filter.TabIndex = 0;
+            // 
+            // showAll
+            // 
+            this.showAll.Location = new System.Drawing.Point(915, 9);
+            this.showAll.Name = "showAll";
+            this.showAll.Size = new System.Drawing.Size(72, 35);
+            this.showAll.TabIndex = 2;
+            this.showAll.Text = "Показать все";
+            this.showAll.UseVisualStyleBackColor = true;
+            // 
+            // discnameFilter
+            // 
+            this.discnameFilter.AutoSize = true;
+            this.discnameFilter.Location = new System.Drawing.Point(6, 18);
+            this.discnameFilter.Name = "discnameFilter";
+            this.discnameFilter.Size = new System.Drawing.Size(15, 14);
+            this.discnameFilter.TabIndex = 3;
+            this.discnameFilter.UseVisualStyleBackColor = true;
+            // 
+            // groupnameFilter
+            // 
+            this.groupnameFilter.AutoSize = true;
+            this.groupnameFilter.Location = new System.Drawing.Point(300, 18);
+            this.groupnameFilter.Name = "groupnameFilter";
+            this.groupnameFilter.Size = new System.Drawing.Size(15, 14);
+            this.groupnameFilter.TabIndex = 4;
+            this.groupnameFilter.UseVisualStyleBackColor = true;
+            // 
+            // groupNameList
+            // 
+            this.groupNameList.FormattingEnabled = true;
+            this.groupNameList.Location = new System.Drawing.Point(321, 15);
+            this.groupNameList.Name = "groupNameList";
+            this.groupNameList.Size = new System.Drawing.Size(100, 21);
+            this.groupNameList.TabIndex = 5;
+            // 
+            // refresh
+            // 
+            this.refresh.Location = new System.Drawing.Point(427, 4);
+            this.refresh.Name = "refresh";
+            this.refresh.Size = new System.Drawing.Size(112, 40);
+            this.refresh.TabIndex = 6;
+            this.refresh.Text = "Обновить";
+            this.refresh.UseVisualStyleBackColor = true;
+            this.refresh.Click += new System.EventHandler(this.refresh_Click);
             // 
             // DisciplineList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1002, 506);
+            this.ClientSize = new System.Drawing.Size(1232, 506);
             this.Controls.Add(this.ListPanel);
             this.Controls.Add(this.controlsPanel);
             this.Name = "DisciplineList";
@@ -344,8 +387,12 @@
         private System.Windows.Forms.Panel viewPanel;
         private System.Windows.Forms.DataGridView DiscipineListView;
         private System.Windows.Forms.Panel filterPanel;
-        private System.Windows.Forms.Button filterButton;
         private System.Windows.Forms.TextBox filter;
         private System.Windows.Forms.Button Paste;
+        private System.Windows.Forms.Button showAll;
+        private System.Windows.Forms.CheckBox discnameFilter;
+        private System.Windows.Forms.Button refresh;
+        private System.Windows.Forms.ComboBox groupNameList;
+        private System.Windows.Forms.CheckBox groupnameFilter;
     }
 }

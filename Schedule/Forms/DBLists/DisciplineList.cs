@@ -41,6 +41,14 @@ namespace Schedule.Forms.DBLists
             Group.DisplayMember = "Name";
             Group.DataSource = groups;
 
+            var groups2 = _repo.GetAllStudentGroups()
+                .OrderBy(g => g.Name)
+                .ToList();
+
+            groupNameList.ValueMember = "StudentGroupId";
+            groupNameList.DisplayMember = "Name";
+            groupNameList.DataSource = groups2;
+
 
             RefreshView();
         }
@@ -49,13 +57,29 @@ namespace Schedule.Forms.DBLists
         {
             List<Discipline> discList;
 
-            if (filter.Text == "")
+            if ((filter.Text != "") && discnameFilter.Checked)
             {
-                discList = _repo.GetAllDisciplines();
+                discList = _repo.GetFiltredDisciplines(disc => disc.Name.Contains(filter.Text));
             }
             else
             {
-                discList = _repo.GetFiltredDisciplines(disc => disc.Name.Contains(filter.Text));
+                discList = _repo.GetAllDisciplines(); 
+            }
+
+            if (groupnameFilter.Checked)
+            {
+                var studentIds = _repo
+                    .GetFiltredStudentsInGroups(sig => sig.StudentGroup.StudentGroupId == (int)groupNameList.SelectedValue)
+                    .ToList()
+                    .Select(stig => stig.Student.StudentId);
+                var groupsListIds = _repo
+                    .GetFiltredStudentsInGroups(sig => studentIds.Contains(sig.Student.StudentId))
+                    .ToList()
+                    .Select(stig => stig.StudentGroup.StudentGroupId);
+
+                discList = discList
+                    .Where(d => groupsListIds.Contains(d.StudentGroup.StudentGroupId))
+                    .ToList();
             }
 
             var discView = DisciplineView.DisciplinesToView(discList);
@@ -210,11 +234,6 @@ namespace Schedule.Forms.DBLists
             }
         }
 
-        private void FilterButtonClick(object sender, EventArgs e)
-        {
-            RefreshView();
-        }
-
         private void PasteClick(object sender, EventArgs e)
         {
             DisciplineName.Text = Clipboard.GetText();
@@ -239,6 +258,11 @@ namespace Schedule.Forms.DBLists
             {
                 DisciplineName.Text = DisciplineName.Text.Substring(0, 1).ToUpper() + DisciplineName.Text.Substring(1);
             }
+        }
+
+        private void refresh_Click(object sender, EventArgs e)
+        {
+            RefreshView();
         }
     }
 }
