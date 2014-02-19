@@ -1,19 +1,55 @@
 ﻿using Schedule.DomainClasses.Main;
+using Schedule.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Packaging;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.Linq;
 
 namespace Schedule.TxtImport
 {
     public static class ScheduleTxtImport
     {
+        public static void LoadDisciplinesListFromExcelPlan(string filename, ScheduleRepository repo)
+        {
+            // Open System.IO.Packaging.Package.
+            Package spreadsheetPackage = Package.Open(filename, FileMode.Open, FileAccess.Read);
+
+            // Open a SpreadsheetDocument based on a package.
+            using (SpreadsheetDocument document = SpreadsheetDocument.Open(spreadsheetPackage))
+            {
+                var workBook = document.WorkbookPart.Workbook;
+                var workSheets = workBook.Descendants<Sheet>();
+                var sharedStrings = document.WorkbookPart.SharedStringTablePart.SharedStringTable;
+
+                var planID = workSheets.First(s => s.Name == @"План").Id;
+
+                var planSheet = (WorksheetPart)document.WorkbookPart.GetPartById(planID);
+
+                foreach (var row in planSheet.Worksheet.Descendants<Row>())
+                {
+                    foreach (var cell in row.Descendants<Cell>().Where(c => c.CellValue != null))
+                    {
+                        var ri = row.RowIndex;
+
+                        //if (cell.CellReference)
+                        {
+
+                        }
+                    }
+                }
+            }
+        }
+
         public static List<Auditorium> ImportAuditoriums(string basePath)
         {
             var result = new List<Auditorium>();
 
             var sr = new StreamReader(basePath + "Auditoriums.txt");
             string line;
-            while((line = sr.ReadLine()) != null)
+            while ((line = sr.ReadLine()) != null)
             {
                 result.Add(new Auditorium { Name = line });
             }
@@ -36,7 +72,7 @@ namespace Schedule.TxtImport
                 var AudHours = int.Parse(lineParted[2]);
                 var LecHours = int.Parse(lineParted[3]);
                 var PraHours = int.Parse(lineParted[4]);
-                
+
                 // 0 - ничего; 1 - зачёт; 2 - экзамен; 3 - зачёт и экзамен
                 int Otch = -1;
                 string stOtch = lineParted[5];
@@ -69,8 +105,8 @@ namespace Schedule.TxtImport
             while ((line = sr.ReadLine()) != null)
             {
                 var hour = int.Parse(line.Split(':')[0]);
-                var min  = int.Parse(line.Split(':')[1]);
-                
+                var min = int.Parse(line.Split(':')[1]);
+
                 result.Add(new Ring { Time = DateTime.Now.Date.Add(new TimeSpan(hour, min, 0)) });
             }
             sr.Close();
@@ -126,14 +162,15 @@ namespace Schedule.TxtImport
 
                         state = 1;
                         break;
-                    case 1:                        
+                    case 1:
                         var data = line.Split('@');
-                        var newStudent = new Student { 
-                            F = data[0], 
+                        var newStudent = new Student
+                        {
+                            F = data[0],
                             I = data[1],
                             O = data[2],
                             ZachNumber = data[3],
-                            BirthDate = (data[4] == "") ? new DateTime(1980, 1, 1) : new DateTime(int.Parse(data[4].Substring(6, 4)), int.Parse(data[4].Substring(3,2)), int.Parse(data[4].Substring(0,2))),
+                            BirthDate = (data[4] == "") ? new DateTime(1980, 1, 1) : new DateTime(int.Parse(data[4].Substring(6, 4)), int.Parse(data[4].Substring(3, 2)), int.Parse(data[4].Substring(0, 2))),
                             Address = data[5],
                             Phone = data[6],
                             Orders = data[7],
@@ -149,7 +186,7 @@ namespace Schedule.TxtImport
                         break;
                 }
 
-               
+
             }
             sr.Close();
 
