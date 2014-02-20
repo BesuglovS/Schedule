@@ -907,5 +907,11 @@ namespace Schedule
 
             System.Diagnostics.Process.Start("ScheduleExport.xlsx");            
         }
+
+        private void LessonListByTFD_Click(object sender, EventArgs e)
+        {
+            var lessonListByTFDForm = new LessonListByTFD(_repo);
+            lessonListByTFDForm.Show();
+        }
     }
 }

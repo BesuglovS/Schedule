@@ -30,6 +30,7 @@
         private void InitializeComponent()
         {
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.excelExport = new System.Windows.Forms.Button();
             this.dayDelta = new System.Windows.Forms.Button();
             this.scheduleHours = new System.Windows.Forms.Button();
             this.allChanges = new System.Windows.Forms.Button();
@@ -72,7 +73,7 @@
             this.занятостьАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.ScheduleView = new System.Windows.Forms.DataGridView();
-            this.excelExport = new System.Windows.Forms.Button();
+            this.LessonListByTFD = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -81,6 +82,7 @@
             // 
             // controlsPanel
             // 
+            this.controlsPanel.Controls.Add(this.LessonListByTFD);
             this.controlsPanel.Controls.Add(this.excelExport);
             this.controlsPanel.Controls.Add(this.dayDelta);
             this.controlsPanel.Controls.Add(this.scheduleHours);
@@ -110,6 +112,16 @@
             this.controlsPanel.Name = "controlsPanel";
             this.controlsPanel.Size = new System.Drawing.Size(862, 149);
             this.controlsPanel.TabIndex = 0;
+            // 
+            // excelExport
+            // 
+            this.excelExport.Location = new System.Drawing.Point(12, 115);
+            this.excelExport.Name = "excelExport";
+            this.excelExport.Size = new System.Drawing.Size(154, 23);
+            this.excelExport.TabIndex = 23;
+            this.excelExport.Text = "Экспорт в Excel";
+            this.excelExport.UseVisualStyleBackColor = true;
+            this.excelExport.Click += new System.EventHandler(this.excelExport_Click);
             // 
             // dayDelta
             // 
@@ -493,15 +505,15 @@
             this.ScheduleView.TabIndex = 1;
             this.ScheduleView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainViewCellDoubleClick);
             // 
-            // excelExport
+            // LessonListByTFD
             // 
-            this.excelExport.Location = new System.Drawing.Point(12, 115);
-            this.excelExport.Name = "excelExport";
-            this.excelExport.Size = new System.Drawing.Size(154, 23);
-            this.excelExport.TabIndex = 23;
-            this.excelExport.Text = "Экспорт в Excel";
-            this.excelExport.UseVisualStyleBackColor = true;
-            this.excelExport.Click += new System.EventHandler(this.excelExport_Click);
+            this.LessonListByTFD.Location = new System.Drawing.Point(172, 114);
+            this.LessonListByTFD.Name = "LessonListByTFD";
+            this.LessonListByTFD.Size = new System.Drawing.Size(139, 23);
+            this.LessonListByTFD.TabIndex = 24;
+            this.LessonListByTFD.Text = "Список пар по TFD";
+            this.LessonListByTFD.UseVisualStyleBackColor = true;
+            this.LessonListByTFD.Click += new System.EventHandler(this.LessonListByTFD_Click);
             // 
             // MainForm
             // 
@@ -572,6 +584,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.Button excelExport;
+        private System.Windows.Forms.Button LessonListByTFD;
     }
 }
 

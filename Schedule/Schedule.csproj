@@ -165,6 +165,12 @@
     <Compile Include="Forms\DBOperations\OpenDB.Designer.cs">
       <DependentUpon>OpenDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\LessonListByTFD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LessonListByTFD.Designer.cs">
+      <DependentUpon>LessonListByTFD.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MultipleView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +205,7 @@
     <Compile Include="Views\DBListViews\StudentView.cs" />
     <Compile Include="Views\FiveGroupsView.cs" />
     <Compile Include="Views\LessonLogEventView.cs" />
+    <Compile Include="Views\LessonViewAtLessonListByTFD.cs" />
     <Compile Include="Views\TeacherForDisciplineView.cs" />
     <Compile Include="Views\tfdView.cs" />
     <Compile Include="wnu\MySQLViews\MySQLAuditoriumEvent.cs" />
@@ -265,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DBOperations\OpenDB.resx">
       <DependentUpon>OpenDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LessonListByTFD.resx">
+      <DependentUpon>LessonListByTFD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MultipleView.resx">
       <DependentUpon>MultipleView.cs</DependentUpon>
