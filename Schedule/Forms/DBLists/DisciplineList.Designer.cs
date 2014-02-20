@@ -50,12 +50,14 @@
             this.viewPanel = new System.Windows.Forms.Panel();
             this.DiscipineListView = new System.Windows.Forms.DataGridView();
             this.filterPanel = new System.Windows.Forms.Panel();
-            this.filter = new System.Windows.Forms.TextBox();
-            this.showAll = new System.Windows.Forms.Button();
-            this.discnameFilter = new System.Windows.Forms.CheckBox();
-            this.groupnameFilter = new System.Windows.Forms.CheckBox();
-            this.groupNameList = new System.Windows.Forms.ComboBox();
             this.refresh = new System.Windows.Forms.Button();
+            this.groupNameList = new System.Windows.Forms.ComboBox();
+            this.groupnameFilter = new System.Windows.Forms.CheckBox();
+            this.discnameFilter = new System.Windows.Forms.CheckBox();
+            this.showAll = new System.Windows.Forms.Button();
+            this.filter = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.controlsPanel.SuspendLayout();
             this.ListPanel.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -256,9 +258,9 @@
             // 
             this.viewPanel.Controls.Add(this.DiscipineListView);
             this.viewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.viewPanel.Location = new System.Drawing.Point(0, 55);
+            this.viewPanel.Location = new System.Drawing.Point(0, 67);
             this.viewPanel.Name = "viewPanel";
-            this.viewPanel.Size = new System.Drawing.Size(999, 451);
+            this.viewPanel.Size = new System.Drawing.Size(999, 439);
             this.viewPanel.TabIndex = 2;
             // 
             // DiscipineListView
@@ -273,12 +275,14 @@
             this.DiscipineListView.Location = new System.Drawing.Point(0, 0);
             this.DiscipineListView.Name = "DiscipineListView";
             this.DiscipineListView.ReadOnly = true;
-            this.DiscipineListView.Size = new System.Drawing.Size(999, 451);
+            this.DiscipineListView.Size = new System.Drawing.Size(999, 439);
             this.DiscipineListView.TabIndex = 0;
             this.DiscipineListView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DiscipineListViewCellClick);
             // 
             // filterPanel
             // 
+            this.filterPanel.Controls.Add(this.label8);
+            this.filterPanel.Controls.Add(this.label7);
             this.filterPanel.Controls.Add(this.refresh);
             this.filterPanel.Controls.Add(this.groupNameList);
             this.filterPanel.Controls.Add(this.groupnameFilter);
@@ -288,15 +292,44 @@
             this.filterPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.filterPanel.Location = new System.Drawing.Point(0, 0);
             this.filterPanel.Name = "filterPanel";
-            this.filterPanel.Size = new System.Drawing.Size(999, 55);
+            this.filterPanel.Size = new System.Drawing.Size(999, 67);
             this.filterPanel.TabIndex = 1;
             // 
-            // filter
+            // refresh
             // 
-            this.filter.Location = new System.Drawing.Point(27, 15);
-            this.filter.Name = "filter";
-            this.filter.Size = new System.Drawing.Size(267, 20);
-            this.filter.TabIndex = 0;
+            this.refresh.Location = new System.Drawing.Point(436, 12);
+            this.refresh.Name = "refresh";
+            this.refresh.Size = new System.Drawing.Size(112, 41);
+            this.refresh.TabIndex = 6;
+            this.refresh.Text = "Обновить";
+            this.refresh.UseVisualStyleBackColor = true;
+            this.refresh.Click += new System.EventHandler(this.refresh_Click);
+            // 
+            // groupNameList
+            // 
+            this.groupNameList.FormattingEnabled = true;
+            this.groupNameList.Location = new System.Drawing.Point(330, 29);
+            this.groupNameList.Name = "groupNameList";
+            this.groupNameList.Size = new System.Drawing.Size(100, 21);
+            this.groupNameList.TabIndex = 5;
+            // 
+            // groupnameFilter
+            // 
+            this.groupnameFilter.AutoSize = true;
+            this.groupnameFilter.Location = new System.Drawing.Point(309, 32);
+            this.groupnameFilter.Name = "groupnameFilter";
+            this.groupnameFilter.Size = new System.Drawing.Size(15, 14);
+            this.groupnameFilter.TabIndex = 4;
+            this.groupnameFilter.UseVisualStyleBackColor = true;
+            // 
+            // discnameFilter
+            // 
+            this.discnameFilter.AutoSize = true;
+            this.discnameFilter.Location = new System.Drawing.Point(13, 33);
+            this.discnameFilter.Name = "discnameFilter";
+            this.discnameFilter.Size = new System.Drawing.Size(15, 14);
+            this.discnameFilter.TabIndex = 3;
+            this.discnameFilter.UseVisualStyleBackColor = true;
             // 
             // showAll
             // 
@@ -307,41 +340,30 @@
             this.showAll.Text = "Показать все";
             this.showAll.UseVisualStyleBackColor = true;
             // 
-            // discnameFilter
+            // filter
             // 
-            this.discnameFilter.AutoSize = true;
-            this.discnameFilter.Location = new System.Drawing.Point(6, 18);
-            this.discnameFilter.Name = "discnameFilter";
-            this.discnameFilter.Size = new System.Drawing.Size(15, 14);
-            this.discnameFilter.TabIndex = 3;
-            this.discnameFilter.UseVisualStyleBackColor = true;
+            this.filter.Location = new System.Drawing.Point(34, 30);
+            this.filter.Name = "filter";
+            this.filter.Size = new System.Drawing.Size(267, 20);
+            this.filter.TabIndex = 0;
             // 
-            // groupnameFilter
+            // label7
             // 
-            this.groupnameFilter.AutoSize = true;
-            this.groupnameFilter.Location = new System.Drawing.Point(300, 18);
-            this.groupnameFilter.Name = "groupnameFilter";
-            this.groupnameFilter.Size = new System.Drawing.Size(15, 14);
-            this.groupnameFilter.TabIndex = 4;
-            this.groupnameFilter.UseVisualStyleBackColor = true;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(97, 9);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(115, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Фильтр по названию";
             // 
-            // groupNameList
+            // label8
             // 
-            this.groupNameList.FormattingEnabled = true;
-            this.groupNameList.Location = new System.Drawing.Point(321, 15);
-            this.groupNameList.Name = "groupNameList";
-            this.groupNameList.Size = new System.Drawing.Size(100, 21);
-            this.groupNameList.TabIndex = 5;
-            // 
-            // refresh
-            // 
-            this.refresh.Location = new System.Drawing.Point(427, 4);
-            this.refresh.Name = "refresh";
-            this.refresh.Size = new System.Drawing.Size(112, 40);
-            this.refresh.TabIndex = 6;
-            this.refresh.Text = "Обновить";
-            this.refresh.UseVisualStyleBackColor = true;
-            this.refresh.Click += new System.EventHandler(this.refresh_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(316, 9);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Фильтр по группе";
             // 
             // DisciplineList
             // 
@@ -394,5 +416,7 @@
         private System.Windows.Forms.Button refresh;
         private System.Windows.Forms.ComboBox groupNameList;
         private System.Windows.Forms.CheckBox groupnameFilter;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
     }
 }

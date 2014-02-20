@@ -35,7 +35,7 @@
             this.removeStudentFrunGroup = new System.Windows.Forms.Button();
             this.FacultiesListView = new System.Windows.Forms.DataGridView();
             this.FacultyListPanel = new System.Windows.Forms.Panel();
-            this.addStudentToGroup = new System.Windows.Forms.Button();
+            this.addGroupToFaculty = new System.Windows.Forms.Button();
             this.cascadeDelete = new System.Windows.Forms.Button();
             this.remove = new System.Windows.Forms.Button();
             this.update = new System.Windows.Forms.Button();
@@ -98,6 +98,7 @@
             this.GroupList.Name = "GroupList";
             this.GroupList.Size = new System.Drawing.Size(287, 21);
             this.GroupList.TabIndex = 31;
+            this.GroupList.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GroupList_KeyPress);
             // 
             // removeStudentFrunGroup
             // 
@@ -135,15 +136,15 @@
             this.FacultyListPanel.Size = new System.Drawing.Size(309, 355);
             this.FacultyListPanel.TabIndex = 23;
             // 
-            // addStudentToGroup
+            // addGroupToFaculty
             // 
-            this.addStudentToGroup.Location = new System.Drawing.Point(16, 288);
-            this.addStudentToGroup.Name = "addStudentToGroup";
-            this.addStudentToGroup.Size = new System.Drawing.Size(139, 23);
-            this.addStudentToGroup.TabIndex = 8;
-            this.addStudentToGroup.Text = "Добавить";
-            this.addStudentToGroup.UseVisualStyleBackColor = true;
-            this.addStudentToGroup.Click += new System.EventHandler(this.addStudentToGroup_Click);
+            this.addGroupToFaculty.Location = new System.Drawing.Point(16, 288);
+            this.addGroupToFaculty.Name = "addGroupToFaculty";
+            this.addGroupToFaculty.Size = new System.Drawing.Size(139, 23);
+            this.addGroupToFaculty.TabIndex = 8;
+            this.addGroupToFaculty.Text = "Добавить";
+            this.addGroupToFaculty.UseVisualStyleBackColor = true;
+            this.addGroupToFaculty.Click += new System.EventHandler(this.addGroupToFaculty_Click);
             // 
             // cascadeDelete
             // 
@@ -210,7 +211,7 @@
             this.ControlsPanel.Controls.Add(this.label2);
             this.ControlsPanel.Controls.Add(this.GroupList);
             this.ControlsPanel.Controls.Add(this.removeStudentFrunGroup);
-            this.ControlsPanel.Controls.Add(this.addStudentToGroup);
+            this.ControlsPanel.Controls.Add(this.addGroupToFaculty);
             this.ControlsPanel.Controls.Add(this.cascadeDelete);
             this.ControlsPanel.Controls.Add(this.remove);
             this.ControlsPanel.Controls.Add(this.update);
@@ -295,7 +296,7 @@
         private System.Windows.Forms.Button removeStudentFrunGroup;
         private System.Windows.Forms.DataGridView FacultiesListView;
         private System.Windows.Forms.Panel FacultyListPanel;
-        private System.Windows.Forms.Button addStudentToGroup;
+        private System.Windows.Forms.Button addGroupToFaculty;
         private System.Windows.Forms.Button cascadeDelete;
         private System.Windows.Forms.Button remove;
         private System.Windows.Forms.Button update;

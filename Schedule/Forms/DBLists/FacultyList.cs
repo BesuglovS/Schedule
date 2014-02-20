@@ -166,7 +166,7 @@ namespace Schedule.Forms.DBLists
             }
         }
 
-        private void addStudentToGroup_Click(object sender, EventArgs e)
+        private void addGroupToFaculty_Click(object sender, EventArgs e)
         {
             if (GroupList.SelectedValue == null)
             {
@@ -210,6 +210,14 @@ namespace Schedule.Forms.DBLists
 
                 RefreshView(RefreshType.GroupsOnly);
             }  
+        }
+
+        private void GroupList_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                addGroupToFaculty.PerformClick();
+            }
         }
         
     }

@@ -116,11 +116,11 @@ namespace Schedule.Forms.DBLists
 
             RefreshView((int)refreshType.teachersOnly);
             
-            /*
+            
             TeacherListView.ClearSelection();
             TeacherListView.Rows[TeacherListView.Rows.Count - 1].Selected = true;
             TeacherListView.FirstDisplayedScrollingRowIndex = TeacherListView.RowCount - 1;
-            */
+            
             filter.Focus();
         }
 
