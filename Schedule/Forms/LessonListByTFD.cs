@@ -60,11 +60,11 @@ namespace Schedule.Forms
             }
             view.DefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
-            
+
             view.Columns["LessonId"].Visible = false;
 
             view.Columns["CalendarDate"].HeaderText = "Дата";
-            view.Columns["CalendarDate"].Width = (int)Math.Round(view.Width * 0.3);            
+            view.Columns["CalendarDate"].Width = (int)Math.Round(view.Width * 0.3);
 
             view.Columns["RingTime"].HeaderText = "Время";
             view.Columns["RingTime"].Width = (int)Math.Round(view.Width * 0.3);

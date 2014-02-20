@@ -30,6 +30,7 @@
         private void InitializeComponent()
         {
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.LessonListByTFD = new System.Windows.Forms.Button();
             this.excelExport = new System.Windows.Forms.Button();
             this.dayDelta = new System.Windows.Forms.Button();
             this.scheduleHours = new System.Windows.Forms.Button();
@@ -73,7 +74,7 @@
             this.занятостьАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.ScheduleView = new System.Windows.Forms.DataGridView();
-            this.LessonListByTFD = new System.Windows.Forms.Button();
+            this.LessonListByTeacher = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -82,6 +83,7 @@
             // 
             // controlsPanel
             // 
+            this.controlsPanel.Controls.Add(this.LessonListByTeacher);
             this.controlsPanel.Controls.Add(this.LessonListByTFD);
             this.controlsPanel.Controls.Add(this.excelExport);
             this.controlsPanel.Controls.Add(this.dayDelta);
@@ -112,6 +114,16 @@
             this.controlsPanel.Name = "controlsPanel";
             this.controlsPanel.Size = new System.Drawing.Size(862, 149);
             this.controlsPanel.TabIndex = 0;
+            // 
+            // LessonListByTFD
+            // 
+            this.LessonListByTFD.Location = new System.Drawing.Point(172, 114);
+            this.LessonListByTFD.Name = "LessonListByTFD";
+            this.LessonListByTFD.Size = new System.Drawing.Size(139, 23);
+            this.LessonListByTFD.TabIndex = 24;
+            this.LessonListByTFD.Text = "Список пар по TFD";
+            this.LessonListByTFD.UseVisualStyleBackColor = true;
+            this.LessonListByTFD.Click += new System.EventHandler(this.LessonListByTFD_Click);
             // 
             // excelExport
             // 
@@ -505,15 +517,15 @@
             this.ScheduleView.TabIndex = 1;
             this.ScheduleView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainViewCellDoubleClick);
             // 
-            // LessonListByTFD
+            // LessonListByTeacher
             // 
-            this.LessonListByTFD.Location = new System.Drawing.Point(172, 114);
-            this.LessonListByTFD.Name = "LessonListByTFD";
-            this.LessonListByTFD.Size = new System.Drawing.Size(139, 23);
-            this.LessonListByTFD.TabIndex = 24;
-            this.LessonListByTFD.Text = "Список пар по TFD";
-            this.LessonListByTFD.UseVisualStyleBackColor = true;
-            this.LessonListByTFD.Click += new System.EventHandler(this.LessonListByTFD_Click);
+            this.LessonListByTeacher.Location = new System.Drawing.Point(317, 114);
+            this.LessonListByTeacher.Name = "LessonListByTeacher";
+            this.LessonListByTeacher.Size = new System.Drawing.Size(271, 22);
+            this.LessonListByTeacher.TabIndex = 25;
+            this.LessonListByTeacher.Text = "Список пар по преподавателям";
+            this.LessonListByTeacher.UseVisualStyleBackColor = true;
+            this.LessonListByTeacher.Click += new System.EventHandler(this.LessonListByTeacher_Click);
             // 
             // MainForm
             // 
@@ -585,6 +597,7 @@
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.Button excelExport;
         private System.Windows.Forms.Button LessonListByTFD;
+        private System.Windows.Forms.Button LessonListByTeacher;
     }
 }
 

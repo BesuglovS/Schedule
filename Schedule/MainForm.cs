@@ -913,5 +913,11 @@ namespace Schedule
             var lessonListByTFDForm = new LessonListByTFD(_repo);
             lessonListByTFDForm.Show();
         }
+
+        private void LessonListByTeacher_Click(object sender, EventArgs e)
+        {
+            var lessonListByTeacherForm = new LessonListByTeacher(_repo);
+            lessonListByTeacherForm.Show();
+        }
     }
 }
