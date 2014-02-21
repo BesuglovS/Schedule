@@ -262,9 +262,168 @@ namespace Schedule
         
         private void BigRedButtonClick(object sender, EventArgs e)
         {            
-            // Oops            
-            var ll = _repo.GetFiltredLessons(l => l.Ring == null);
-            var eprst = 999;
+            // Oops
+            //ExportStudentsData("StudentsExport-1sem.txt");
+            //ImportStudentData("StudentsExport-1sem.txt");
+
+            var studentIds = _repo.GetFiltredStudents(s => s.I == "C").Select(s => s.StudentId).ToList();
+
+            foreach (var id in studentIds)
+            {
+                var sigIds = _repo.GetFiltredStudentsInGroups(sigs => sigs.Student.StudentId == id).Select(sig => sig.StudentsInGroupsId);
+                foreach (var sig in sigIds)
+                {
+                    _repo.RemoveStudentsInGroups(sig);
+                }
+                _repo.RemoveStudent(id);
+            }
+            
+        }
+
+        private void ImportStudentData(string filename)
+        {
+            var studentList = new List<Student>();
+            var studentGroups = new List<StudentGroup>();
+            var studentsInGroups = new List<StudentsInGroups>();
+
+            var sr = new StreamReader(filename);
+
+            string line;
+
+            var maxStudentId = _repo
+                .GetAllStudents()
+                .Select(s => s.StudentId)
+                .Max();
+            maxStudentId++;
+
+            var StudentIdRemap = new Dictionary<int, int>();
+
+            sr.ReadLine();
+            while ((line = sr.ReadLine()) != "StudentGroups")
+            {
+                var studentParts = line.Split('@');
+                var student = new Student() { 
+                    StudentId = maxStudentId, 
+                    F = studentParts[1], 
+                    I = studentParts[2], 
+                    O = studentParts[3],
+                    Address = "",
+                    BirthDate = new DateTime(2000,1,1),
+                    Expelled = false,
+                    NFactor = false,
+                    Orders = "",
+                    PaidEdu = false,
+                    Phone = "",
+                    Starosta = false,
+                    ZachNumber = ""
+                };
+
+                StudentIdRemap.Add(int.Parse(studentParts[0]), maxStudentId);
+
+                studentList.Add(student);
+
+                _repo.AddStudent(student);
+
+                maxStudentId++;
+            }
+
+            StudentGroup group = null;
+            var maxGroupId = _repo
+                .GetAllStudentGroups()
+                .Select(s => s.StudentGroupId)
+                .Max();
+            maxGroupId++;
+
+            var groupIdRemap = new Dictionary<int, int>();
+            while ((line = sr.ReadLine()) != "StudentsInGroups")
+            {                
+                var groupParts = line.Split('@');
+
+                if (!_repo.GetFiltredStudentGroups(sg => sg.Name == groupParts[1]).Any())
+                {
+                    group = new StudentGroup()
+                    {
+                        StudentGroupId = maxGroupId,
+                        Name = groupParts[1]
+                    };
+
+                    groupIdRemap.Add(int.Parse(groupParts[0]), maxGroupId);
+
+                    studentGroups.Add(group);
+
+                    _repo.AddStudentGroup(group);
+
+                    maxGroupId++;
+                }                
+                else
+                {
+                    var gr = _repo.GetFirstFiltredStudentGroups(sg => sg.Name == groupParts[1]);
+                    studentGroups.Add(gr);
+
+                    groupIdRemap.Add(int.Parse(groupParts[0]), gr.StudentGroupId);
+                }
+            }
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                var sigParts = line.Split('@');
+
+                var studentId = int.Parse(sigParts[0]);
+                studentId = StudentIdRemap[studentId];
+
+                var studentGroupId = int.Parse(sigParts[1]);
+                if (groupIdRemap.ContainsKey(studentGroupId))
+                {
+                    studentGroupId = groupIdRemap[studentGroupId];
+                }
+                else
+                {
+                    studentGroupId = _repo.GetFirstFiltredStudentGroups( sg => sg.Name ==
+                        studentGroups.FirstOrDefault(stg => stg.StudentGroupId == studentGroupId).Name).StudentGroupId;
+                }
+
+                var sig = new StudentsInGroups()
+                {
+                    Student = _repo.GetStudent(studentId),
+                    StudentGroup = _repo.GetStudentGroup(studentGroupId)
+                };
+
+                studentsInGroups.Add(sig);
+
+                _repo.AddStudentsInGroups(sig);
+            }
+
+            sr.Close();
+        }
+
+        private void ExportStudentsData(string filename)
+        {
+            var sw = new StreamWriter(filename);
+
+            sw.WriteLine("Students");
+            foreach (var student in _repo.GetFiltredStudents(s => !s.Expelled))
+            {
+                sw.WriteLine(
+                    student.StudentId + "@" +
+                    student.F + "@" +
+                    student.I + "@" +
+                    student.O
+                );
+            }
+
+            sw.WriteLine("StudentGroups");
+            foreach (var sg in _repo.GetAllStudentGroups())
+            {
+                sw.WriteLine(sg.StudentGroupId + "@" + sg.Name);
+            }
+
+            sw.WriteLine("StudentsInGroups");
+            foreach (var sig in _repo.GetFiltredStudentsInGroups(sig => !sig.Student.Expelled))
+            {
+                sw.WriteLine(sig.Student.StudentId + "@" + sig.StudentGroup.StudentGroupId);
+            }
+
+            sw.Close();
         }
 
         private List<Lesson> SchoolAudLessons()
@@ -360,43 +519,43 @@ namespace Schedule
         private void АудиторииToolStripMenuItemClick(object sender, EventArgs e)
         {
             var audForm = new AuditoriumList(_repo);
-            audForm.ShowDialog();
+            audForm.Show();
         }
        
         private void ДниСеместраToolStripMenuItemClick(object sender, EventArgs e)
         {
             var calendarForm = new CalendarList(_repo);
-            calendarForm.ShowDialog();
+            calendarForm.Show();
         }
 
         private void ЗвонкиToolStripMenuItemClick(object sender, EventArgs e)
         {
             var ringForm = new RingList(_repo);
-            ringForm.ShowDialog();
+            ringForm.Show();
         }
 
         private void СтудентыToolStripMenuItemClick(object sender, EventArgs e)
         {
             var studentForm = new StudentList(_repo);
-            studentForm.ShowDialog();
+            studentForm.Show();
         }
 
         private void ГруппыToolStripMenuItemClick(object sender, EventArgs e)
         {
             var studentGroupForm = new StudentGroupList(_repo);
-            studentGroupForm.ShowDialog();
+            studentGroupForm.Show();
         }
 
         private void ПреподавателиToolStripMenuItemClick(object sender, EventArgs e)
         {
             var teacherForm = new TeacherList(_repo);
-            teacherForm.ShowDialog();
+            teacherForm.Show();
         }
 
         private void ДисциплиныToolStripMenuItemClick(object sender, EventArgs e)
         {
             var disciplineForm = new DisciplineList(_repo);
-            disciplineForm.ShowDialog();
+            disciplineForm.Show();
         }
 
         private void ImportFromTextClick(object sender, EventArgs e)
@@ -458,7 +617,7 @@ namespace Schedule
         private void Button1Click(object sender, EventArgs e)
         {
             var addLessonForm = new AddLesson(_repo);
-            addLessonForm.ShowDialog();
+            addLessonForm.Show();
         }
 
         private void LoadToSiteClick(object sender, EventArgs e)
@@ -544,7 +703,7 @@ namespace Schedule
         private void RemovelessonClick(object sender, EventArgs e)
         {
             var removeLessonForm = new RemoveLesson(_repo);
-            removeLessonForm.ShowDialog();
+            removeLessonForm.Show();
         }
 
         private void MainViewCellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -559,7 +718,7 @@ namespace Schedule
         private void ОпцииToolStripMenuItemClick(object sender, EventArgs e)
         {
             var configOptionsForm = new ConfigOptionsList(_repo);
-            configOptionsForm.ShowDialog();
+            configOptionsForm.Show();
         }
 
         private void NotEnoughClick(object sender, EventArgs e)
@@ -628,7 +787,7 @@ namespace Schedule
         private void ФакультетыгруппыToolStripMenuItemClick(object sender, EventArgs e)
         {
             var facultyListForm = new FacultyList(_repo);
-            facultyListForm.ShowDialog();
+            facultyListForm.Show();
         }
 
         private void WordItClick(object sender, EventArgs e)
@@ -669,25 +828,25 @@ namespace Schedule
         private void ManyGroups_Click(object sender, EventArgs e)
         {
             var manyGroupsForm = new MultipleView(_repo);
-            manyGroupsForm.ShowDialog();
+            manyGroupsForm.Show();
         }
 
         private void занятостьАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var audEventsForm = new AuditoriumEventsList(_repo);
-            audEventsForm.ShowDialog();
+            audEventsForm.Show();
         }
 
         private void teachersHours_Click(object sender, EventArgs e)
         {
             var teacherHoursForm = new teacherHours(_repo);
-            teacherHoursForm.ShowDialog();
+            teacherHoursForm.Show();
         }
 
         private void oneAuditorium_Click(object sender, EventArgs e)
         {
             var oneAudForm = new OneAuditorium(_repo);
-            oneAudForm.ShowDialog();
+            oneAudForm.Show();
         }
 
         private void auditoriums_Click(object sender, EventArgs e)

@@ -152,10 +152,6 @@ namespace Schedule.Forms.DBLists
             _repo.AddDiscipline(newDiscipline);
 
             RefreshView();
-
-            DisciplineName.Text = "";
-            AuditoriumHours.Text = "";
-            DisciplineName.Focus();
         }
 
         private void UpdateClick(object sender, EventArgs e)
