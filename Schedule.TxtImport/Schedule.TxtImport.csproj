@@ -45,15 +45,11 @@
     <Compile Include="ScheduleTxtImport.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Schedule.Constants\Schedule.Constants.csproj">
-      <Project>{f4769d95-8167-49b2-9ad5-5e8d066df64a}</Project>
-      <Name>Schedule.Constants</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Schedule.DomainClasses\Schedule.DomainClasses.csproj">
+    <ProjectReference Include="..\ScheduleRepository\Schedule.DomainClasses\Schedule.DomainClasses.csproj">
       <Project>{04c588a6-087c-4d73-966c-6402e717545c}</Project>
       <Name>Schedule.DomainClasses</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Schedule.Repository\Schedule.Repositories.csproj">
+    <ProjectReference Include="..\ScheduleRepository\Schedule.Repository\Schedule.Repositories.csproj">
       <Project>{8b084795-2d5d-4185-abf7-0719a3d709c3}</Project>
       <Name>Schedule.Repositories</Name>
     </ProjectReference>
