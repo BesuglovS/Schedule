@@ -30,6 +30,7 @@
         private void InitializeComponent()
         {
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.LessonListByTeacher = new System.Windows.Forms.Button();
             this.LessonListByTFD = new System.Windows.Forms.Button();
             this.excelExport = new System.Windows.Forms.Button();
             this.dayDelta = new System.Windows.Forms.Button();
@@ -74,7 +75,7 @@
             this.занятостьАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.ScheduleView = new System.Windows.Forms.DataGridView();
-            this.LessonListByTeacher = new System.Windows.Forms.Button();
+            this.altWordExport = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -83,6 +84,7 @@
             // 
             // controlsPanel
             // 
+            this.controlsPanel.Controls.Add(this.altWordExport);
             this.controlsPanel.Controls.Add(this.LessonListByTeacher);
             this.controlsPanel.Controls.Add(this.LessonListByTFD);
             this.controlsPanel.Controls.Add(this.excelExport);
@@ -115,6 +117,16 @@
             this.controlsPanel.Size = new System.Drawing.Size(862, 149);
             this.controlsPanel.TabIndex = 0;
             // 
+            // LessonListByTeacher
+            // 
+            this.LessonListByTeacher.Location = new System.Drawing.Point(317, 114);
+            this.LessonListByTeacher.Name = "LessonListByTeacher";
+            this.LessonListByTeacher.Size = new System.Drawing.Size(271, 22);
+            this.LessonListByTeacher.TabIndex = 25;
+            this.LessonListByTeacher.Text = "Список пар по преподавателям";
+            this.LessonListByTeacher.UseVisualStyleBackColor = true;
+            this.LessonListByTeacher.Click += new System.EventHandler(this.LessonListByTeacher_Click);
+            // 
             // LessonListByTFD
             // 
             this.LessonListByTFD.Location = new System.Drawing.Point(172, 114);
@@ -137,7 +149,7 @@
             // 
             // dayDelta
             // 
-            this.dayDelta.Location = new System.Drawing.Point(615, 86);
+            this.dayDelta.Location = new System.Drawing.Point(615, 115);
             this.dayDelta.Name = "dayDelta";
             this.dayDelta.Size = new System.Drawing.Size(33, 23);
             this.dayDelta.TabIndex = 22;
@@ -147,7 +159,7 @@
             // 
             // scheduleHours
             // 
-            this.scheduleHours.Location = new System.Drawing.Point(654, 84);
+            this.scheduleHours.Location = new System.Drawing.Point(654, 113);
             this.scheduleHours.Name = "scheduleHours";
             this.scheduleHours.Size = new System.Drawing.Size(192, 23);
             this.scheduleHours.TabIndex = 21;
@@ -517,15 +529,15 @@
             this.ScheduleView.TabIndex = 1;
             this.ScheduleView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainViewCellDoubleClick);
             // 
-            // LessonListByTeacher
+            // altWordExport
             // 
-            this.LessonListByTeacher.Location = new System.Drawing.Point(317, 114);
-            this.LessonListByTeacher.Name = "LessonListByTeacher";
-            this.LessonListByTeacher.Size = new System.Drawing.Size(271, 22);
-            this.LessonListByTeacher.TabIndex = 25;
-            this.LessonListByTeacher.Text = "Список пар по преподавателям";
-            this.LessonListByTeacher.UseVisualStyleBackColor = true;
-            this.LessonListByTeacher.Click += new System.EventHandler(this.LessonListByTeacher_Click);
+            this.altWordExport.Location = new System.Drawing.Point(614, 86);
+            this.altWordExport.Name = "altWordExport";
+            this.altWordExport.Size = new System.Drawing.Size(232, 22);
+            this.altWordExport.TabIndex = 26;
+            this.altWordExport.Text = "Word2";
+            this.altWordExport.UseVisualStyleBackColor = true;
+            this.altWordExport.Click += new System.EventHandler(this.altWordExport_Click);
             // 
             // MainForm
             // 
@@ -598,6 +610,7 @@
         private System.Windows.Forms.Button excelExport;
         private System.Windows.Forms.Button LessonListByTFD;
         private System.Windows.Forms.Button LessonListByTeacher;
+        private System.Windows.Forms.Button altWordExport;
     }
 }
 

@@ -55,7 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Excel.cs" />
+    <Compile Include="Core\NewWordExport.cs" />
     <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Core\WierdWord.cs" />
     <Compile Include="Core\WordExport.cs" />
     <Compile Include="Forms\AllChanges.cs">
       <SubType>Form</SubType>

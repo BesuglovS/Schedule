@@ -9,6 +9,8 @@ using Microsoft.Office.Interop.Word;
 using Schedule.DomainClasses.Main;
 using Schedule.Repositories;
 using Shape = Microsoft.Office.Interop.Word.Shape;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml;
 
 namespace Schedule.Core
 {
@@ -620,6 +622,6 @@ namespace Schedule.Core
             }
 
             System.Runtime.InteropServices.Marshal.ReleaseComObject(oWord); 
-        }
+        }        
     }
 }

@@ -1078,5 +1078,17 @@ namespace Schedule
             var lessonListByTeacherForm = new LessonListByTeacher(_repo);
             lessonListByTeacherForm.Show();
         }
+
+        private void altWordExport_Click(object sender, EventArgs e)
+        {
+            var facultyId = (int)FacultyList.SelectedValue;
+            var facultyName = _repo.GetFaculty(facultyId).Name;
+            var ruDOW = DOWList.SelectedIndex + 1;
+
+            var facultyDOWLessons = _repo.GetFacultyDOWSchedule(facultyId, ruDOW);
+            NewWordExport.AltExportSchedulePage(facultyDOWLessons, facultyName, "NewExport.docx", DOWList.Text, _repo, false, false, false);
+
+            var eprst = 999;
+        }
     }
 }
