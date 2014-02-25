@@ -16,15 +16,15 @@ namespace Schedule.Forms
     {
         ScheduleRepository repo;
 
-        public AllChanges()
+        public AllChanges(ScheduleRepository Repo)
         {
             InitializeComponent();
+
+            repo = Repo;
         }
 
         private void AllChanges_Load(object sender, EventArgs e)
         {
-            repo = new ScheduleRepository();
-
             var changes = repo
                 .GetAllLessonLogEvents()
                 .OrderByDescending(lle => lle.DateTime)                
