@@ -45,6 +45,5 @@ namespace Schedule.Forms.DBOperations
                 openDatabase.PerformClick();
             }
         }
-
     }
 }

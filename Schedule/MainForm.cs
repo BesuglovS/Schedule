@@ -857,7 +857,7 @@ namespace Schedule
 
         private void allChanges_Click(object sender, EventArgs e)
         {
-            var allChangesForm = new AllChanges();
+            var allChangesForm = new AllChanges(_repo);
             allChangesForm.Show();
         }
 
