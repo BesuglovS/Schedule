@@ -82,13 +82,15 @@ namespace Schedule.Forms.DBLists
                     .ToList();
             }
 
-            var discView = DisciplineView.DisciplinesToView(discList);
+            var discView = DisciplineView.DisciplinesToView(_repo, discList);
 
             DiscipineListView.DataSource = discView;
 
             //DiscipineListView.Columns["DisciplineId"].Visible = false;
             DiscipineListView.Columns["DisciplineId"].Width = 40;
             DiscipineListView.Columns["Name"].Width = 270;
+            DiscipineListView.Columns["TeacherFIO"].Width = 80;
+            DiscipineListView.Columns["ScheduleHours"].Width = 30;
             DiscipineListView.Columns["Attestation"].Width = 80;
             DiscipineListView.Columns["AuditoriumHours"].Width = 80;
             DiscipineListView.Columns["LectureHours"].Width = 80;

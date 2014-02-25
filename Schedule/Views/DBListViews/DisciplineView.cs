@@ -1,4 +1,5 @@
 ﻿using Schedule.DomainClasses.Main;
+using Schedule.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Schedule.Views.DBListViews
         public int DisciplineId { get; set; }
         public string Name { get; set; }
         public string StudentGroupName { get; set; }
+        public string TeacherFIO { get; set; }
+        public int ScheduleHours { get; set; }
         public string Attestation { get; set; } // 0 - ничего; 1 - зачёт; 2 - экзамен; 3 - зачёт и экзамен
         public int AuditoriumHours { get; set; }
         public int LectureHours { get; set; }
@@ -22,7 +25,7 @@ namespace Schedule.Views.DBListViews
 
         }
 
-        public DisciplineView(Discipline discipline)
+        public DisciplineView(ScheduleRepository repo, Discipline discipline)
         {
             DisciplineId = discipline.DisciplineId;
             Name = discipline.Name;
@@ -31,15 +34,27 @@ namespace Schedule.Views.DBListViews
             LectureHours = discipline.LectureHours;
             PracticalHours = discipline.PracticalHours;
             StudentGroupName = discipline.StudentGroup.Name;
+
+            var tefd = repo.GetFirstFiltredTeacherForDiscipline(tfd => tfd.Discipline.DisciplineId == discipline.DisciplineId);
+            if (tefd != null)
+            {
+                TeacherFIO = tefd.Teacher.FIO;
+                ScheduleHours = repo.getTFDHours(tefd.TeacherForDisciplineId);
+            }
+            else
+            {
+                TeacherFIO = "нет";
+                ScheduleHours = 0;
+            }
         }
 
-        public static List<DisciplineView> DisciplinesToView(List<Discipline> list)
+        public static List<DisciplineView> DisciplinesToView(ScheduleRepository repo, List<Discipline> list)
         {
             var result = new List<DisciplineView>();
 
             foreach (var disc in list)
             {
-                result.Add(new DisciplineView(disc));
+                result.Add(new DisciplineView(repo, disc));
             }
 
             return result;
