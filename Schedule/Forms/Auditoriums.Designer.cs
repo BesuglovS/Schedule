@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.buildingList = new System.Windows.Forms.ComboBox();
+            this.oneBuilding = new System.Windows.Forms.CheckBox();
+            this.weekNumber = new System.Windows.Forms.NumericUpDown();
+            this.oneWeek = new System.Windows.Forms.CheckBox();
             this.Sat = new System.Windows.Forms.Button();
             this.Fri = new System.Windows.Forms.Button();
             this.Thu = new System.Windows.Forms.Button();
@@ -37,14 +41,10 @@
             this.Mon = new System.Windows.Forms.Button();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.audView = new System.Windows.Forms.DataGridView();
-            this.oneWeek = new System.Windows.Forms.CheckBox();
-            this.weekNumber = new System.Windows.Forms.NumericUpDown();
-            this.oneBuilding = new System.Windows.Forms.CheckBox();
-            this.buildingList = new System.Windows.Forms.ComboBox();
             this.controlsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weekNumber)).BeginInit();
             this.viewPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.audView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weekNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // controlsPanel
@@ -64,6 +64,56 @@
             this.controlsPanel.Name = "controlsPanel";
             this.controlsPanel.Size = new System.Drawing.Size(814, 76);
             this.controlsPanel.TabIndex = 0;
+            // 
+            // buildingList
+            // 
+            this.buildingList.FormattingEnabled = true;
+            this.buildingList.Location = new System.Drawing.Point(320, 39);
+            this.buildingList.Name = "buildingList";
+            this.buildingList.Size = new System.Drawing.Size(216, 21);
+            this.buildingList.TabIndex = 9;
+            // 
+            // oneBuilding
+            // 
+            this.oneBuilding.AutoSize = true;
+            this.oneBuilding.Location = new System.Drawing.Point(224, 42);
+            this.oneBuilding.Name = "oneBuilding";
+            this.oneBuilding.Size = new System.Drawing.Size(90, 17);
+            this.oneBuilding.TabIndex = 8;
+            this.oneBuilding.Text = "Один корпус";
+            this.oneBuilding.UseVisualStyleBackColor = true;
+            // 
+            // weekNumber
+            // 
+            this.weekNumber.Location = new System.Drawing.Point(109, 39);
+            this.weekNumber.Maximum = new decimal(new int[] {
+            18,
+            0,
+            0,
+            0});
+            this.weekNumber.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.weekNumber.Name = "weekNumber";
+            this.weekNumber.Size = new System.Drawing.Size(45, 20);
+            this.weekNumber.TabIndex = 7;
+            this.weekNumber.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // oneWeek
+            // 
+            this.oneWeek.AutoSize = true;
+            this.oneWeek.Location = new System.Drawing.Point(12, 41);
+            this.oneWeek.Name = "oneWeek";
+            this.oneWeek.Size = new System.Drawing.Size(91, 17);
+            this.oneWeek.TabIndex = 6;
+            this.oneWeek.Text = "Одна неделя";
+            this.oneWeek.UseVisualStyleBackColor = true;
             // 
             // Sat
             // 
@@ -147,56 +197,6 @@
             this.audView.Size = new System.Drawing.Size(814, 395);
             this.audView.TabIndex = 0;
             // 
-            // oneWeek
-            // 
-            this.oneWeek.AutoSize = true;
-            this.oneWeek.Location = new System.Drawing.Point(12, 41);
-            this.oneWeek.Name = "oneWeek";
-            this.oneWeek.Size = new System.Drawing.Size(91, 17);
-            this.oneWeek.TabIndex = 6;
-            this.oneWeek.Text = "Одна неделя";
-            this.oneWeek.UseVisualStyleBackColor = true;
-            // 
-            // weekNumber
-            // 
-            this.weekNumber.Location = new System.Drawing.Point(109, 39);
-            this.weekNumber.Maximum = new decimal(new int[] {
-            18,
-            0,
-            0,
-            0});
-            this.weekNumber.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.weekNumber.Name = "weekNumber";
-            this.weekNumber.Size = new System.Drawing.Size(45, 20);
-            this.weekNumber.TabIndex = 7;
-            this.weekNumber.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // oneBuilding
-            // 
-            this.oneBuilding.AutoSize = true;
-            this.oneBuilding.Location = new System.Drawing.Point(224, 42);
-            this.oneBuilding.Name = "oneBuilding";
-            this.oneBuilding.Size = new System.Drawing.Size(90, 17);
-            this.oneBuilding.TabIndex = 8;
-            this.oneBuilding.Text = "Один корпус";
-            this.oneBuilding.UseVisualStyleBackColor = true;
-            // 
-            // buildingList
-            // 
-            this.buildingList.FormattingEnabled = true;
-            this.buildingList.Location = new System.Drawing.Point(320, 39);
-            this.buildingList.Name = "buildingList";
-            this.buildingList.Size = new System.Drawing.Size(216, 21);
-            this.buildingList.TabIndex = 9;
-            // 
             // Auditoriums
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -207,11 +207,12 @@
             this.Name = "Auditoriums";
             this.Text = "Аудитории";
             this.Load += new System.EventHandler(this.Auditoriums_Load);
+            this.ResizeEnd += new System.EventHandler(this.Auditoriums_ResizeEnd);
             this.controlsPanel.ResumeLayout(false);
             this.controlsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weekNumber)).EndInit();
             this.viewPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.audView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weekNumber)).EndInit();
             this.ResumeLayout(false);
 
         }

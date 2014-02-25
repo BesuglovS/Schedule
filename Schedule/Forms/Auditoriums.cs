@@ -157,9 +157,9 @@ namespace Schedule.Forms
             }
             for (int j = 0; j < audIdsList.Count; j++)
             {
-                audView.Columns[j].HeaderText = audsById[audIdsList[j]];
-                audView.Columns[j].Width = (int)Math.Round((audView.Width * 0.95) / audIdsList.Count);
+                audView.Columns[j].HeaderText = audsById[audIdsList[j]];                
             }
+            AdjustColumnWidth();
 
             for (int i = 0; i < auds.Count; i++)
             {
@@ -206,11 +206,24 @@ namespace Schedule.Forms
             audView.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
         }
 
+        private void AdjustColumnWidth()
+        {
+            for (int j = 0; j < audView.Columns.Count; j++)
+            {
+                audView.Columns[j].Width = (int)Math.Round(((audView.Width - audView.RowHeadersWidth) * 0.95) / audView.Columns.Count);
+            } 
+        }
+
         private void Auditoriums_Load(object sender, EventArgs e)
         {
             buildingList.DisplayMember = "Name";
             buildingList.ValueMember = "id";
             buildingList.DataSource = Constants.Constants.Buildings;
+        }
+
+        private void Auditoriums_ResizeEnd(object sender, EventArgs e)
+        {
+            AdjustColumnWidth();
         }
     }
 }
