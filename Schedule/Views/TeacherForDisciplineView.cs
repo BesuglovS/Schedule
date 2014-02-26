@@ -14,6 +14,7 @@ namespace Schedule.Views
         public string DisciplineName { get; set; }
         public string GroupName { get; set; }
         public int PlanHours { get; set; }
+        public int HoursDone { get; set; }
         public int ScheduleHours { get; set; }
         public string Attestation { get; set; }
 
@@ -39,7 +40,12 @@ namespace Schedule.Views
                      GroupName = tfd.Discipline.StudentGroup.Name,
                      PlanHours = tfd.Discipline.AuditoriumHours,
                      Attestation = Constants.Constants.Attestation[tfd.Discipline.Attestation],
-                     ScheduleHours = repo.getTFDHours(tfd.TeacherForDisciplineId)
+                     ScheduleHours = repo.getTFDHours(tfd.TeacherForDisciplineId),
+
+                     HoursDone = repo.GetFiltredLessons(l => 
+                         l.IsActive &&
+                         l.TeacherForDiscipline.TeacherForDisciplineId == tfd.TeacherForDisciplineId &&
+                         (l.Calendar.Date.Date + l.Ring.Time.TimeOfDay) < DateTime.Now).Count * 2
                 });
             }
 

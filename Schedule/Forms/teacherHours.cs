@@ -64,6 +64,9 @@ namespace Schedule.Forms
             view.Columns["ScheduleHours"].HeaderText = "Часы в расписании";
             view.Columns["ScheduleHours"].Width = 80;
 
+            view.Columns["HoursDone"].HeaderText = "Выполнено на данный момент";
+            view.Columns["HoursDone"].Width = 80;
+
             view.Columns["Attestation"].HeaderText = "Форма отчётности";
             view.Columns["Attestation"].Width = 80;
         }
