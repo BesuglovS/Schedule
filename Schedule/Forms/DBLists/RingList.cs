@@ -63,7 +63,7 @@ namespace Schedule.Forms.DBLists
                 return;
             }
 
-            var newRing = new Ring { Time = RingTime.Value };
+            var newRing = new Ring { Time = RingTime.Value.Subtract(new TimeSpan(0, 0, 0, RingTime.Value.Second, RingTime.Value.Millisecond))};
             _repo.AddRing(newRing);
 
             RefreshView();
@@ -77,6 +77,8 @@ namespace Schedule.Forms.DBLists
                 var ring = _repo.GetRing(ringView.RingId);
 
                 ring.Time = RingTime.Value;
+
+                ring.Time = ring.Time.Subtract(new TimeSpan(0, 0, 0, ring.Time.Second, ring.Time.Millisecond));
 
                 _repo.UpdateRing(ring);
 
