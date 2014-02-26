@@ -30,6 +30,8 @@
         private void InitializeComponent()
         {
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.setLayout = new System.Windows.Forms.Button();
+            this.altWordExport = new System.Windows.Forms.Button();
             this.LessonListByTeacher = new System.Windows.Forms.Button();
             this.LessonListByTFD = new System.Windows.Forms.Button();
             this.excelExport = new System.Windows.Forms.Button();
@@ -75,7 +77,7 @@
             this.занятостьАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPanel = new System.Windows.Forms.Panel();
             this.ScheduleView = new System.Windows.Forms.DataGridView();
-            this.altWordExport = new System.Windows.Forms.Button();
+            this.setLayout2 = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -84,6 +86,8 @@
             // 
             // controlsPanel
             // 
+            this.controlsPanel.Controls.Add(this.setLayout2);
+            this.controlsPanel.Controls.Add(this.setLayout);
             this.controlsPanel.Controls.Add(this.altWordExport);
             this.controlsPanel.Controls.Add(this.LessonListByTeacher);
             this.controlsPanel.Controls.Add(this.LessonListByTFD);
@@ -117,11 +121,31 @@
             this.controlsPanel.Size = new System.Drawing.Size(862, 149);
             this.controlsPanel.TabIndex = 0;
             // 
+            // setLayout
+            // 
+            this.setLayout.Location = new System.Drawing.Point(506, 115);
+            this.setLayout.Name = "setLayout";
+            this.setLayout.Size = new System.Drawing.Size(36, 21);
+            this.setLayout.TabIndex = 27;
+            this.setLayout.Text = "L1";
+            this.setLayout.UseVisualStyleBackColor = true;
+            this.setLayout.Click += new System.EventHandler(this.setLayout_Click);
+            // 
+            // altWordExport
+            // 
+            this.altWordExport.Location = new System.Drawing.Point(614, 86);
+            this.altWordExport.Name = "altWordExport";
+            this.altWordExport.Size = new System.Drawing.Size(232, 22);
+            this.altWordExport.TabIndex = 26;
+            this.altWordExport.Text = "Word2";
+            this.altWordExport.UseVisualStyleBackColor = true;
+            this.altWordExport.Click += new System.EventHandler(this.altWordExport_Click);
+            // 
             // LessonListByTeacher
             // 
             this.LessonListByTeacher.Location = new System.Drawing.Point(317, 114);
             this.LessonListByTeacher.Name = "LessonListByTeacher";
-            this.LessonListByTeacher.Size = new System.Drawing.Size(271, 22);
+            this.LessonListByTeacher.Size = new System.Drawing.Size(183, 22);
             this.LessonListByTeacher.TabIndex = 25;
             this.LessonListByTeacher.Text = "Список пар по преподавателям";
             this.LessonListByTeacher.UseVisualStyleBackColor = true;
@@ -326,6 +350,7 @@
             // 
             // importFromText
             // 
+            this.importFromText.Enabled = false;
             this.importFromText.Location = new System.Drawing.Point(235, 25);
             this.importFromText.Name = "importFromText";
             this.importFromText.Size = new System.Drawing.Size(113, 23);
@@ -529,15 +554,15 @@
             this.ScheduleView.TabIndex = 1;
             this.ScheduleView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainViewCellDoubleClick);
             // 
-            // altWordExport
+            // setLayout2
             // 
-            this.altWordExport.Location = new System.Drawing.Point(614, 86);
-            this.altWordExport.Name = "altWordExport";
-            this.altWordExport.Size = new System.Drawing.Size(232, 22);
-            this.altWordExport.TabIndex = 26;
-            this.altWordExport.Text = "Word2";
-            this.altWordExport.UseVisualStyleBackColor = true;
-            this.altWordExport.Click += new System.EventHandler(this.altWordExport_Click);
+            this.setLayout2.Location = new System.Drawing.Point(548, 115);
+            this.setLayout2.Name = "setLayout2";
+            this.setLayout2.Size = new System.Drawing.Size(36, 21);
+            this.setLayout2.TabIndex = 28;
+            this.setLayout2.Text = "L2";
+            this.setLayout2.UseVisualStyleBackColor = true;
+            this.setLayout2.Click += new System.EventHandler(this.setLayout2_Click);
             // 
             // MainForm
             // 
@@ -611,6 +636,8 @@
         private System.Windows.Forms.Button LessonListByTFD;
         private System.Windows.Forms.Button LessonListByTeacher;
         private System.Windows.Forms.Button altWordExport;
+        private System.Windows.Forms.Button setLayout;
+        private System.Windows.Forms.Button setLayout2;
     }
 }
 

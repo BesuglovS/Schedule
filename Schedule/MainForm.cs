@@ -20,6 +20,8 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Tuple = System.Tuple;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Schedule
 {
@@ -263,21 +265,71 @@ namespace Schedule
         private void BigRedButtonClick(object sender, EventArgs e)
         {            
             // Oops
-            //ExportStudentsData("StudentsExport-1sem.txt");
-            //ImportStudentData("StudentsExport-1sem.txt");
+            // ExportStudentsData("StudentsExport-1sem.txt");
+            // ImportStudentData("StudentsExport-1sem.txt");
+            // CopyINOGroupLessonsFromRealSchedule();
+        }
 
-            var studentIds = _repo.GetFiltredStudents(s => s.I == "C").Select(s => s.StudentId).ToList();
+        private void CopyINOGroupLessonsFromRealSchedule()
+        {
 
-            foreach (var id in studentIds)
+            _repo.ConnectionString = "data source=tcp:127.0.0.1,1433; Database=ScheduleDB;User ID = sa;Password = ghjuhfvvf";
+
+            var discNames = _repo
+                .GetFiltredTeacherForDiscipline(tfd => tfd.Discipline.StudentGroup.Name.Contains("-") && tfd.Discipline.AuditoriumHours != 0)
+                .Select(tfd => tfd.Discipline.Name)
+                .OrderBy(a => a)
+                .ToList();
+
+            var result = new Dictionary<string, List<Lesson>>();
+
+            foreach (var tfd in _repo.GetAllTeacherForDiscipline())
             {
-                var sigIds = _repo.GetFiltredStudentsInGroups(sigs => sigs.Student.StudentId == id).Select(sig => sig.StudentsInGroupsId);
-                foreach (var sig in sigIds)
+                if (tfd.Discipline.StudentGroup.Name.Contains("-") && tfd.Discipline.AuditoriumHours != 0)
                 {
-                    _repo.RemoveStudentsInGroups(sig);
+                    var tfdLessons = _repo.GetFiltredLessons(l =>
+                        l.IsActive &&
+                        l.TeacherForDiscipline.TeacherForDisciplineId == tfd.TeacherForDisciplineId);
+
+                    if (!result.ContainsKey(tfd.Discipline.StudentGroup.Name))
+                    {
+                        result.Add(tfd.Discipline.StudentGroup.Name, tfdLessons);
+                    }
                 }
-                _repo.RemoveStudent(id);
+
             }
-            
+
+            _repo.ConnectionString = "data source=tcp:127.0.0.1,1433; Database=S-13-14-2;User ID = sa;Password = ghjuhfvvf";
+
+            var newLessonsList = new List<Lesson>();
+
+            foreach (var kvp in result)
+            {
+                var tefd = _repo.GetFirstFiltredTeacherForDiscipline(tfd => tfd.Discipline.StudentGroup.Name == kvp.Key);
+                if (tefd != null)
+                {
+                    foreach (var lesson in kvp.Value)
+                    {
+                        var calendar = _repo.GetFirstFiltredCalendar(c => c.Date.Date == lesson.Calendar.Date.Date);
+                        var ring = _repo.GetFirstFiltredRing(r => r.Time.TimeOfDay == lesson.Ring.Time.TimeOfDay);
+                        var auditorium = _repo.GetFirstFiltredAuditoriums(a => a.Name == lesson.Auditorium.Name);
+
+                        if ((calendar == null) || (ring == null) || (auditorium == null))
+                        {
+                            throw new Exception();
+                        }
+
+                        var newLesson = new Lesson() { Auditorium = auditorium, Ring = ring, Calendar = calendar, IsActive = true, TeacherForDiscipline = tefd };
+
+                        newLessonsList.Add(newLesson);
+                    }
+                }
+            }
+
+            foreach (var l in newLessonsList)
+            {
+                _repo.AddLesson(l);
+            }
         }
 
         private void ImportStudentData(string filename)
@@ -1089,6 +1141,38 @@ namespace Schedule
             NewWordExport.AltExportSchedulePage(facultyDOWLessons, facultyName, "NewExport.docx", DOWList.Text, _repo, false, false, false);
 
             var eprst = 999;
+        }
+
+        private void setLayout_Click(object sender, EventArgs e)
+        {
+            var width = Screen.PrimaryScreen.WorkingArea.Width;
+            var height = Screen.PrimaryScreen.WorkingArea.Height;
+
+            this.Top = 0;
+            this.Left = 0;
+            this.Width = width / 2;
+            this.Height = height / 2;
+            
+            var audsForm = new Auditoriums(_repo);
+            audsForm.Show();
+            audsForm.Top = height / 2;
+            audsForm.Left = 0;
+            audsForm.Width = width / 2;
+            audsForm.Height = height / 2;            
+
+        }
+
+        private void setLayout2_Click(object sender, EventArgs e)
+        {
+            var width = Screen.PrimaryScreen.WorkingArea.Width;
+            var height = Screen.PrimaryScreen.WorkingArea.Height;
+
+            var disciplineForm = new DisciplineList(_repo);
+            disciplineForm.Show();
+            disciplineForm.Top = 0;
+            disciplineForm.Left = width / 2;
+            disciplineForm.Width = width / 2;
+            disciplineForm.Height = (int) Math.Round(height * 0.42);
         }
     }
 }
