@@ -14,12 +14,22 @@ namespace Schedule.Forms.DBLists.Lessons
     public partial class AddLesson : Form
     {
         private readonly ScheduleRepository _repo;
+        private readonly int tfdId = -1;
 
         public AddLesson(ScheduleRepository repo)
         {
             InitializeComponent();
 
             _repo = repo;
+        }
+
+        public AddLesson(ScheduleRepository repo, int tfdId)
+        {
+            InitializeComponent();
+
+            _repo = repo;
+
+            this.tfdId = tfdId;
         }
 
         private void AddLesson_Load(object sender, System.EventArgs e)
@@ -32,6 +42,12 @@ namespace Schedule.Forms.DBLists.Lessons
             teacherForDisciplineBox.DataSource = tfdViewList;
             teacherForDisciplineBox.DisplayMember = "tfdSummary";
             teacherForDisciplineBox.ValueMember = "TeacherForDisciplineId";
+
+            if (tfdId != -1)
+            {
+                teacherForDisciplineBox.SelectedValue = tfdId;
+                ringsBox.Focus();
+            }
 
             // Rings load
             var ringsList = _repo.GetAllRings()                
@@ -57,6 +73,9 @@ namespace Schedule.Forms.DBLists.Lessons
             // Public comment
             publicComment.Items.AddRange(Constants.Constants.LessonAddPublicComment.ToArray());
             publicComment.SelectedIndex = 0;
+
+            this.Top = (Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2;
+            this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
         }
 
         private void Cancel_Click(object sender, EventArgs e)

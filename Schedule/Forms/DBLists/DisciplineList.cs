@@ -1,4 +1,5 @@
 ﻿using Schedule.DomainClasses.Main;
+using Schedule.Forms.DBLists.Lessons;
 using Schedule.Repositories;
 using Schedule.Views.DBListViews;
 using System;
@@ -261,6 +262,22 @@ namespace Schedule.Forms.DBLists
         private void refresh_Click(object sender, EventArgs e)
         {
             RefreshView();
+        }
+
+        private void DiscipineListView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var discId = ((List<DisciplineView>)DiscipineListView.DataSource)[e.RowIndex].DisciplineId;            
+            var tefd = _repo.GetFirstFiltredTeacherForDiscipline(tfd => tfd.Discipline.DisciplineId == discId);
+            if (tefd != null)
+            {
+                var addLessonForm = new AddLesson(_repo, tefd.TeacherForDisciplineId);
+                addLessonForm.Show();               
+            }
+            else
+            {
+                var addLessonForm = new AddLesson(_repo);
+                addLessonForm.Show();
+            }
         }
     }
 }

@@ -50,14 +50,14 @@
             this.viewPanel = new System.Windows.Forms.Panel();
             this.DiscipineListView = new System.Windows.Forms.DataGridView();
             this.filterPanel = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.refresh = new System.Windows.Forms.Button();
             this.groupNameList = new System.Windows.Forms.ComboBox();
             this.groupnameFilter = new System.Windows.Forms.CheckBox();
             this.discnameFilter = new System.Windows.Forms.CheckBox();
             this.showAll = new System.Windows.Forms.Button();
             this.filter = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.controlsPanel.SuspendLayout();
             this.ListPanel.SuspendLayout();
             this.viewPanel.SuspendLayout();
@@ -278,6 +278,7 @@
             this.DiscipineListView.Size = new System.Drawing.Size(999, 439);
             this.DiscipineListView.TabIndex = 0;
             this.DiscipineListView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DiscipineListViewCellClick);
+            this.DiscipineListView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DiscipineListView_CellMouseDoubleClick);
             // 
             // filterPanel
             // 
@@ -294,6 +295,24 @@
             this.filterPanel.Name = "filterPanel";
             this.filterPanel.Size = new System.Drawing.Size(999, 67);
             this.filterPanel.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(316, 9);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Фильтр по группе";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(97, 9);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(115, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Фильтр по названию";
             // 
             // refresh
             // 
@@ -346,24 +365,6 @@
             this.filter.Name = "filter";
             this.filter.Size = new System.Drawing.Size(267, 20);
             this.filter.TabIndex = 0;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(97, 9);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(115, 13);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Фильтр по названию";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(316, 9);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(99, 13);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Фильтр по группе";
             // 
             // DisciplineList
             // 
