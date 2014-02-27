@@ -26,7 +26,7 @@ namespace Schedule.Core
             using (WordprocessingDocument wordDocument =
         WordprocessingDocument.Create(filename, WordprocessingDocumentType.Document))
             {
-                using (WordprocessingDocument package = WordprocessingDocument.Create(filePath, WordprocessingDocumentType.Document))
+                using (WordprocessingDocument package = WordprocessingDocument.Create(filename, WordprocessingDocumentType.Document))
                 {
                     CreateParts(package);
                 }
