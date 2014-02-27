@@ -273,7 +273,9 @@ namespace Schedule
         private void CopyINOGroupLessonsFromRealSchedule()
         {
 
-            _repo.ConnectionString = "data source=tcp:127.0.0.1,1433; Database=ScheduleDB;User ID = sa;Password = ghjuhfvvf";
+            _repo.ConnectionString = "data source=tcp:127.0.0.1,1433; Database=ScheduleDB;User ID = "+ 
+                    ";User ID = " + Schedule.Properties.Settings.Default.DBUserName + 
+                    ";Password = " + Schedule.Properties.Settings.Default.DBPassword;
 
             var discNames = _repo
                 .GetFiltredTeacherForDiscipline(tfd => tfd.Discipline.StudentGroup.Name.Contains("-") && tfd.Discipline.AuditoriumHours != 0)
@@ -299,7 +301,9 @@ namespace Schedule
 
             }
 
-            _repo.ConnectionString = "data source=tcp:127.0.0.1,1433; Database=S-13-14-2;User ID = sa;Password = ghjuhfvvf";
+            _repo.ConnectionString = "data source=tcp:127.0.0.1,1433; Database=S-13-14-2;User ID = " +
+                    ";User ID = " + Schedule.Properties.Settings.Default.DBUserName +
+                    ";Password = " + Schedule.Properties.Settings.Default.DBPassword;
 
             var newLessonsList = new List<Lesson>();
 
