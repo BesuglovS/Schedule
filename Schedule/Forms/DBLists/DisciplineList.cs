@@ -51,7 +51,7 @@ namespace Schedule.Forms.DBLists
             groupNameList.DataSource = groups2;
 
 
-            RefreshView();
+            //RefreshView();
         }
 
         private void RefreshView()
@@ -266,7 +266,7 @@ namespace Schedule.Forms.DBLists
 
         private void DiscipineListView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var discId = ((List<DisciplineView>)DiscipineListView.DataSource)[e.RowIndex].DisciplineId;            
+            var discId = ((List<DisciplineView>)DiscipineListView.DataSource)[e.RowIndex].DisciplineId;
             var tefd = _repo.GetFirstFiltredTeacherForDiscipline(tfd => tfd.Discipline.DisciplineId == discId);
             if (tefd != null)
             {
@@ -278,6 +278,46 @@ namespace Schedule.Forms.DBLists
                 var addLessonForm = new AddLesson(_repo);
                 addLessonForm.Show();
             }
+        }
+
+        private void DiscipineListView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 4)
+            {
+                var discView = ((List<DisciplineView>)DiscipineListView.DataSource)[e.RowIndex];
+
+                e.CellStyle.BackColor = PickPercentColor(discView.AuditoriumHours, discView.ScheduleHours);
+            }
+        }
+
+        private Color PickPercentColor(int AuditoriumHours, int ScheduleHours)
+        {
+            if (ScheduleHours > AuditoriumHours+1)
+            {
+                return Color.FromArgb(255, 0, 255);
+            }
+
+            if (ScheduleHours == AuditoriumHours+1)
+            {
+                return Color.FromArgb(200, 255, 0);
+            }
+            
+            if (ScheduleHours == AuditoriumHours)
+            {
+                return Color.FromArgb(0, 255, 0);
+            }
+
+            if (ScheduleHours >= AuditoriumHours * 0.9)
+            {
+                return Color.FromArgb(255, 255, 0);
+            }
+            
+            if (ScheduleHours >= AuditoriumHours * 0.5)
+            {
+                return Color.FromArgb(255, 128, 0);
+            }
+
+            return Color.FromArgb(255, 0, 0);
         }
     }
 }
