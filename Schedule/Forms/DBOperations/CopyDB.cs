@@ -27,7 +27,9 @@ namespace Schedule.Forms.DBOperations
             if (sqlExpressDB.Checked)
             {
                 var dbName = SQLExpressDatabaseName.Text;
-                var connectionString = "data source=tcp:127.0.0.1,1433; Database=" + dbName + ";User ID = sa;Password = ghjuhfvvf";
+                var connectionString = "data source=tcp:127.0.0.1,1433; Database=" + dbName + 
+                    ";User ID = " + Schedule.Properties.Settings.Default.DBUserName + 
+                    ";Password = " + Schedule.Properties.Settings.Default.DBPassword;
 
                 var newRepo = new ScheduleRepository(connectionString);                
                 newRepo.CreateDB();
